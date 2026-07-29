@@ -33,6 +33,19 @@ Acesse `http://localhost:3000`.
 pnpm build
 ```
 
+## Site público
+
+A landing page é publicada automaticamente pelo GitHub Pages a cada atualização
+da branch `main`:
+
+https://liviapalmakoko.github.io/ilikia-verao-2026/
+
+Para validar localmente a versão estática usada pelo GitHub Pages:
+
+```bash
+pnpm build:pages
+```
+
 ## Estrutura principal
 
 - `app/page.tsx`: conteúdo e interações da landing page

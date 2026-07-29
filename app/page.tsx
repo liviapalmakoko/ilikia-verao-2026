@@ -1,6 +1,7 @@
 "use client";
 
 import { FormEvent, useState } from "react";
+import Image from "next/image";
 import {
   CircuitBoard,
   ClipboardCheck,
@@ -9,6 +10,8 @@ import {
   Headset,
   Sparkles,
 } from "lucide-react";
+
+const publicBasePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
 
 const protocols = [
   {
@@ -154,10 +157,14 @@ export default function Home() {
         <div className="hero-content">
           <h1 id="hero-title" className="hero-title-mark">
             <span className="visually-hidden">Corpo &amp; Alma Brasileira</span>
-            <img
+            <Image
               className="hero-lettering"
-              src="/assets/corpo-alma-lettering.png"
+              src={`${publicBasePath}/assets/corpo-alma-lettering.png`}
               alt=""
+              width={1800}
+              height={446}
+              priority
+              unoptimized
               aria-hidden="true"
             />
           </h1>
