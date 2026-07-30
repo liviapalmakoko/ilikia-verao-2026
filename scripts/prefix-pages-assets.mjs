@@ -2,7 +2,9 @@ import { readdir, readFile, writeFile } from "node:fs/promises";
 import { join } from "node:path";
 
 const outputDirectory = "out";
-const repositoryBasePath = "/ilikia-verao-2026";
+// Mesmo basePath do next.config.ts. Vazio (dominio proprio) = nada a prefixar.
+const repositoryBasePath =
+  process.env.NEXT_PUBLIC_BASE_PATH ?? "/ilikia-verao-2026";
 const assetPathPattern = /url\((["']?)\/(assets|fonts)\//g;
 
 async function prefixCssAssets(directory) {
@@ -34,4 +36,6 @@ async function prefixCssAssets(directory) {
   );
 }
 
-await prefixCssAssets(outputDirectory);
+if (repositoryBasePath) {
+  await prefixCssAssets(outputDirectory);
+}

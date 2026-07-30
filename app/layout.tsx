@@ -1,9 +1,16 @@
 import type { Metadata } from "next";
 import "./globals.css";
 
-const isGitHubPages = process.env.GITHUB_PAGES === "true";
-const basePath = isGitHubPages ? "/ilikia-verao-2026" : "";
-const publicUrl = "https://liviapalmakoko.github.io/ilikia-verao-2026";
+const isStaticExport =
+  process.env.STATIC_EXPORT === "true" || process.env.GITHUB_PAGES === "true";
+const basePath = isStaticExport
+  ? (process.env.NEXT_PUBLIC_BASE_PATH ?? "/ilikia-verao-2026")
+  : "";
+// Dominio final do deploy (canonical/OG). Em dominio proprio, passar
+// NEXT_PUBLIC_SITE_URL no build.
+const publicUrl =
+  process.env.NEXT_PUBLIC_SITE_URL ??
+  "https://liviapalmakoko.github.io/ilikia-verao-2026";
 const title = "Corpo & Alma Brasileira | Protocolos de Verão 2026";
 const description =
   "Protocolos que unem ciência, tecnologia e experiência clínica para transformar o verão da sua clínica.";
