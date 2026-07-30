@@ -445,8 +445,14 @@ p {
   background:
     linear-gradient(90deg, rgba(18, 24, 19, 0.42) 0%, rgba(18, 24, 19, 0.17) 56%, rgba(18, 24, 19, 0.03) 100%),
     url("/assets/estrategia-mar-clean-v1.webp") center / cover no-repeat;
-  filter: contrast(1.035) saturate(1.025);
-  will-change: transform;
+  /* Tirados daqui (glitch de scroll nesta secao, tela Retina):
+     - `filter: contrast(1.035) saturate(1.025)` — 3,5% e 2,5% de ajuste, ou
+       seja, imperceptivel, mas obriga um passe de filtro sobre uma camada de
+       tela cheia, duas vezes (back + front), a cada frame da animacao.
+     - `will-change: transform` — promove as DUAS camadas a textura de GPU
+       permanente. Em tela 2x isso vira textura enorme, e o Chrome passa a
+       rasterizar em tiles durante o scroll, o que aparece como tear. A
+       animacao ja promove a camada sozinha enquanto roda. */
 }
 
 .strategy-ocean-back {
@@ -986,7 +992,11 @@ input::placeholder {
   background-size: cover;
   mask-image: linear-gradient(to bottom, transparent 48%, rgba(0, 0, 0, 0.2) 58%, #000 73%);
   -webkit-mask-image: linear-gradient(to bottom, transparent 48%, rgba(0, 0, 0, 0.2) 58%, #000 73%);
-  will-change: transform, background-position;
+  /* `background-position` saiu do will-change: nao e uma propriedade que o
+     compositor consegue animar, entao o hint so faz o Chrome manter a camada
+     preparada pra repintar — o oposto do que se queria. Nada aqui anima
+     background-position; o que anima e transform. */
+  will-change: transform;
 }
 
 .hero-ocean-back {
