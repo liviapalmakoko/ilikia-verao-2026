@@ -17,38 +17,110 @@ const protocols = [
   {
     eyebrow: "CONTORNO CORPORAL",
     name: "Beauty Code",
+    image: "/assets/protocols/beauty-code-v2.jpg",
     copy:
-      "Criado para pacientes com estilo de vida wellness que desejam otimizar o contorno glúteo, associando projeção e volumização com UP Max à qualidade tecidual e sustentação com STIIM.",
-    products: "UP Max + STIIM",
-    result: "Projeção, volumização e qualidade de pele",
-    steps: ["Projeção", "Volume", "Qualidade tecidual"],
+      "Criado para pacientes com estilo de vida wellness que desejam otimizar o contorno glúteo, o Beauty Code associa projeção e volumização com UP Max à qualidade tecidual e sustentação com STIIM. A abordagem integrada foi pensada para entregar resultados que se mantenham estáveis para além do verão.",
+    focus: "Contorno glúteo, projeção, volumização e qualidade tecidual",
+    components: [
+      {
+        name: "UP Max",
+        category: "Preenchedor",
+        amount: "60 ml",
+        presentation: "4 kits de 15 ml",
+        benefits: ["Projeção", "Volumização"],
+      },
+      {
+        name: "STIIM",
+        category: "Bioestimulador",
+        amount: "4 caixas",
+        presentation: "Protocolo corporal",
+        benefits: ["Sustentação", "Qualidade da pele"],
+      },
+    ],
   },
   {
     eyebrow: "REJUVENESCIMENTO FACIAL",
     name: "FrameLift",
+    image: "/assets/protocols/framelift-v2.jpg",
     copy:
-      "Um tratamento completo que associa qualidade da pele e sustentação com STIIM, redefinição dos contornos com UP Contour e suavização das rugas de expressão com um neurotransmissor.",
-    products: "STIIM + UP Contour + neurotransmissor",
-    result: "Estrutura, sustentação e naturalidade",
-    steps: ["Estrutura", "Sustentação", "Suavização"],
+      "Desenvolvido para pacientes que desejam um rejuvenescimento facial completo, o FrameLift combina qualidade da pele e sustentação com STIIM, estruturação e redefinição dos contornos com UP Contour e suavização das rugas de expressão com um neurotransmissor. O resultado é uma abordagem integrada, natural e harmoniosa.",
+    focus: "Qualidade da pele, estruturação facial e suavização das rugas de expressão",
+    components: [
+      {
+        name: "STIIM",
+        category: "Bioestimulador de colágeno",
+        amount: "2 unidades",
+        presentation: "2 seringas",
+        benefits: ["Sustentação", "Qualidade da pele"],
+      },
+      {
+        name: "UP Contour",
+        category: "Preenchedor",
+        amount: "2 unidades",
+        presentation: "4 seringas",
+        benefits: ["Estruturação", "Redefinição dos contornos"],
+      },
+      {
+        name: "Neurotransmissor",
+        category: "Neuromodulação",
+        amount: "1 frasco",
+        presentation: "150 U",
+        benefits: ["Suavização das rugas", "Reprogramação muscular"],
+      },
+    ],
+    note:
+      "Conforme orientação do briefing, a marca e a embalagem do neuromodulador não são exibidas.",
   },
   {
     eyebrow: "FIRMEZA ABDOMINAL",
     name: "Body Secrets",
+    image: "/assets/protocols/body-secrets-v2.jpg",
     copy:
-      "Desenvolvido para restaurar a firmeza da região abdominal por meio de uma abordagem combinada: bioestimulação de colágeno com STIIM e sustentação mecânica dos tecidos com Aptos Nano.",
-    products: "STIIM + Aptos Nano",
-    result: "Tratamento completo da flacidez supraumbilical",
-    steps: ["Bioestimulação", "Sustentação", "Firmeza"],
+      "Desenvolvido para pacientes que buscam restaurar a firmeza da região abdominal, o Body Secrets une a bioestimulação de colágeno promovida por STIIM à sustentação mecânica dos tecidos com Aptos Nano, favorecendo resultados mais completos no tratamento da flacidez supraumbilical.",
+    focus: "Bioestimulação, sustentação mecânica e firmeza supraumbilical",
+    components: [
+      {
+        name: "APTOS Nano",
+        category: "Fios absorvíveis",
+        amount: "4 caixas",
+        presentation: "20 fios de 8 cm",
+        benefits: ["Estruturação", "Qualidade da pele"],
+      },
+      {
+        name: "STIIM",
+        category: "Bioestimulador",
+        amount: "2 caixas",
+        presentation: "Protocolo abdominal",
+        benefits: ["Sustentação", "Qualidade da pele"],
+      },
+    ],
+    note:
+      "O material de acompanhamento após 30 dias ainda não foi fornecido; por isso, esta página não apresenta um resultado clínico simulado.",
   },
   {
     eyebrow: "SKINCARE TECNOLÓGICO",
     name: "Summer Skin",
+    image: "/assets/protocols/summer-skin-v2.jpg",
     copy:
-      "Para pacientes que não querem abrir mão da rotina de verão para cuidar da pele. Hydrafacial promove renovação, hidratação e infusão de ativos em um único procedimento, sem downtime.",
-    products: "Hydrafacial",
-    result: "Pele saudável, luminosa e pronta para o verão",
-    steps: ["Renovação", "Hidratação", "Infusão de ativos"],
+      "Para pacientes que não querem abrir mão da rotina de verão para cuidar da pele, o Summer Skin utiliza a tecnologia patenteada Vortex-Fusion® da Hydrafacial. O protocolo promove renovação, hidratação e infusão de ativos em um único procedimento, sem downtime, para uma pele saudável, luminosa e pronta para acompanhar o ritmo da estação.",
+    focus: "Renovação, hidratação, infusão de ativos e luminosidade",
+    components: [
+      {
+        name: "Hydrafacial",
+        category: "Skincare tecnológico",
+        amount: "1 sessão",
+        presentation: "Tecnologia Vortex-Fusion®",
+        benefits: ["Renovação e hidratação", "Infusão de ativos"],
+      },
+    ],
+    evidence: [
+      "Presente em mais de 90 países",
+      "Uma sessão realizada a cada 15 segundos",
+      "Múltiplos prêmios internacionais",
+      "Reconhecida por celebridades e especialistas em beleza",
+      "Mais de 80% dos pacientes relatam melhora da qualidade da pele*",
+    ],
+    source: "*Fonte indicada no briefing: Journal of Clinical and Aesthetic Dermatology.",
   },
 ];
 
@@ -241,47 +313,89 @@ export default function Home() {
           ))}
         </div>
 
-        <article className="protocol-card" id="protocol-panel" role="tabpanel">
-          <div className="protocol-copy">
-            <p className="protocol-eyebrow">{protocol.eyebrow}</p>
-            <h3>{protocol.name}</h3>
-            <p>{protocol.copy}</p>
-            <dl>
-              <div>
-                <dt>Combinação</dt>
-                <dd>{protocol.products}</dd>
+        <article
+          className="protocol-card"
+          id="protocol-panel"
+          role="tabpanel"
+          key={protocol.name}
+        >
+          <div className="protocol-overview">
+            <div className="protocol-copy">
+              <p className="protocol-eyebrow">
+                PROTOCOLO 0{activeProtocol + 1} · {protocol.eyebrow}
+              </p>
+              <h3>{protocol.name}</h3>
+              <p>{protocol.copy}</p>
+              <div className="protocol-focus">
+                <span>Foco clínico</span>
+                <strong>{protocol.focus}</strong>
               </div>
-              <div>
-                <dt>Foco clínico</dt>
-                <dd>{protocol.result}</dd>
-              </div>
-            </dl>
-            <button className="text-link" onClick={scrollToForm}>
-              Quero conhecer esse protocolo <span aria-hidden="true">→</span>
-            </button>
-          </div>
-          <div className="protocol-visual">
-            <div className="protocol-map" key={protocol.name}>
-              <div className="protocol-map-topline">
-                <span>PROTOCOLO 0{activeProtocol + 1}</span>
-                <span>VERÃO 2026</span>
-              </div>
-              <div className="protocol-map-center">
-                <span className="map-ring map-ring-one" />
-                <span className="map-ring map-ring-two" />
-                <strong>{protocol.name}</strong>
-                <small>{protocol.eyebrow}</small>
-              </div>
-              <ol>
-                {protocol.steps.map((step, index) => (
-                  <li key={step}>
-                    <span>0{index + 1}</span>
-                    {step}
-                  </li>
-                ))}
-              </ol>
-              <p className="asset-note">Área reservada para o visual oficial do protocolo</p>
+              <button className="text-link" onClick={scrollToForm}>
+                Quero conhecer esse protocolo <span aria-hidden="true">→</span>
+              </button>
             </div>
+
+            <figure className="protocol-visual">
+              <Image
+                src={`${publicBasePath}${protocol.image}`}
+                alt={`Visual conceitual do protocolo ${protocol.name}`}
+                fill
+                sizes="(max-width: 980px) 100vw, 52vw"
+                unoptimized
+                priority={activeProtocol === 0}
+              />
+              <figcaption>
+                <span>Visual conceitual de aplicação</span>
+                <span>Imagem ilustrativa</span>
+              </figcaption>
+            </figure>
+          </div>
+
+          <div className="protocol-information">
+            <div className="protocol-components">
+              <div className="protocol-information-heading">
+                <span>COMPOSIÇÃO DO PROTOCOLO</span>
+                <p>Produtos, apresentações e funções previstas no briefing.</p>
+              </div>
+              <div className="protocol-component-grid">
+                {protocol.components.map((component, index) => (
+                  <article className="protocol-component" key={component.name}>
+                    <span className="component-number">0{index + 1}</span>
+                    <p>{component.category}</p>
+                    <h4>{component.name}</h4>
+                    <div className="component-amount">
+                      <strong>{component.amount}</strong>
+                      <span>{component.presentation}</span>
+                    </div>
+                    <ul>
+                      {component.benefits.map((benefit) => (
+                        <li key={benefit}>{benefit}</li>
+                      ))}
+                    </ul>
+                  </article>
+                ))}
+              </div>
+            </div>
+
+            {protocol.evidence && (
+              <aside className="protocol-evidence">
+                <span>POR TRÁS DA PELE DO VERÃO</span>
+                <h4>Uma tecnologia reconhecida mundialmente.</h4>
+                <ul>
+                  {protocol.evidence.map((item) => (
+                    <li key={item}>{item}</li>
+                  ))}
+                </ul>
+                <p>{protocol.source}</p>
+              </aside>
+            )}
+
+            {protocol.note && (
+              <p className="protocol-note">
+                <span>TRANSPARÊNCIA</span>
+                {protocol.note}
+              </p>
+            )}
           </div>
         </article>
       </section>
