@@ -1,3 +1,7 @@
+/* v2 — o hash do CSS vem do fonte, nao do arquivo final. Quando so o
+   pos-processamento muda (scripts/prefix-pages-assets.mjs), o nome continua
+   igual e o edge segue servindo a versao antiga com `immutable`. Mexer aqui
+   forca hash novo. */
 @import "tailwindcss";
 
 @font-face {

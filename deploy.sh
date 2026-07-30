@@ -50,6 +50,32 @@ else
   fail=1
 fi
 
+# Checar arquivo por arquivo nao basta: o arquivo pode existir e o CSS apontar
+# pra outro caminho (foi o que aconteceu com o basePath do GitHub Pages vazando
+# pro build de dominio proprio). Aqui seguimos as URLs que o CSS realmente pede.
+css=$(curl -s https://ilikia-verao.koko.ag/ | grep -oE '/_next/static/chunks/[^"]+\.css' | head -1)
+if [ -z "$css" ]; then
+  echo "  FALHA nao achei o CSS na pagina"
+  fail=1
+else
+  refs=$(curl -s "https://ilikia-verao.koko.ag${css}" \
+    | grep -oE 'url\("?/[^")]+\.(webp|jpg|png|woff2)' | sed 's|url("\?||' | sort -u)
+  quebradas=0
+  for ref in $refs; do
+    code=$(curl -s -o /dev/null -w '%{http_code}' "https://ilikia-verao.koko.ag${ref}")
+    if [ "$code" != "200" ]; then
+      echo "  FALHA css -> $ref ($code)"
+      quebradas=$((quebradas + 1))
+    fi
+  done
+  total=$(echo "$refs" | grep -c . || true)
+  if [ "$quebradas" = "0" ]; then
+    echo "  ok   $total assets referenciados no CSS respondendo"
+  else
+    fail=1
+  fi
+fi
+
 if [ "$fail" = "0" ]; then
   echo "==> no ar: https://ilikia-verao.koko.ag"
 else
