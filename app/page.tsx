@@ -17,7 +17,10 @@ const protocols = [
   {
     eyebrow: "CONTORNO CORPORAL",
     name: "Beauty Code",
-    image: "/assets/protocols/beauty-code-v2.jpg",
+    visualType: "clinical-map",
+    image: "/assets/protocols/clinical/beauty-code-map.png",
+    visualAlt:
+      "Mapa de aplicação do protocolo Beauty Code para projeção, volumização e qualidade tecidual",
     copy:
       "Criado para pacientes com estilo de vida wellness que desejam otimizar o contorno glúteo, o Beauty Code associa projeção e volumização com UP Max à qualidade tecidual e sustentação com STIIM. A abordagem integrada foi pensada para entregar resultados que se mantenham estáveis para além do verão.",
     focus: "Contorno glúteo, projeção, volumização e qualidade tecidual",
@@ -41,7 +44,14 @@ const protocols = [
   {
     eyebrow: "REJUVENESCIMENTO FACIAL",
     name: "FrameLift",
-    image: "/assets/protocols/framelift-v2.jpg",
+    visualType: "framelift-steps",
+    image: "/assets/protocols/clinical/framelift-step-1.png",
+    visualAlt: "Etapas de aplicação do protocolo FrameLift",
+    stepImages: [
+      "/assets/protocols/clinical/framelift-step-1.png",
+      "/assets/protocols/clinical/framelift-step-2.png",
+      "/assets/protocols/clinical/framelift-step-3.png",
+    ],
     copy:
       "Desenvolvido para pacientes que desejam um rejuvenescimento facial completo, o FrameLift combina qualidade da pele e sustentação com STIIM, estruturação e redefinição dos contornos com UP Contour e suavização das rugas de expressão com um neurotransmissor. O resultado é uma abordagem integrada, natural e harmoniosa.",
     focus: "Qualidade da pele, estruturação facial e suavização das rugas de expressão",
@@ -74,7 +84,10 @@ const protocols = [
   {
     eyebrow: "FIRMEZA ABDOMINAL",
     name: "Body Secrets",
-    image: "/assets/protocols/body-secrets-v2.jpg",
+    visualType: "clinical-map",
+    image: "/assets/protocols/clinical/body-secrets-map.png",
+    visualAlt:
+      "Mapa de vetores do protocolo Body Secrets para firmeza e sustentação abdominal",
     copy:
       "Desenvolvido para pacientes que buscam restaurar a firmeza da região abdominal, o Body Secrets une a bioestimulação de colágeno promovida por STIIM à sustentação mecânica dos tecidos com Aptos Nano, favorecendo resultados mais completos no tratamento da flacidez supraumbilical.",
     focus: "Bioestimulação, sustentação mecânica e firmeza supraumbilical",
@@ -96,11 +109,19 @@ const protocols = [
     ],
     note:
       "O material de acompanhamento após 30 dias ainda não foi fornecido; por isso, esta página não apresenta um resultado clínico simulado.",
+    followUp: {
+      beforeImage: "/assets/protocols/clinical/body-secrets-before.jpg",
+      title: "Acompanhamento clínico",
+      copy:
+        "O registro inicial já foi realizado. A imagem de 30 dias será inserida após a atualização final do material clínico.",
+    },
   },
   {
     eyebrow: "SKINCARE TECNOLÓGICO",
     name: "Summer Skin",
-    image: "/assets/protocols/summer-skin-v2.jpg",
+    visualType: "technology",
+    image: "/assets/protocols/clinical/hydrafacial-machine.png",
+    visualAlt: "Equipamento Hydrafacial utilizado no protocolo Summer Skin",
     copy:
       "Para pacientes que não querem abrir mão da rotina de verão para cuidar da pele, o Summer Skin utiliza a tecnologia patenteada Vortex-Fusion® da Hydrafacial. O protocolo promove renovação, hidratação e infusão de ativos em um único procedimento, sem downtime, para uma pele saudável, luminosa e pronta para acompanhar o ritmo da estação.",
     focus: "Renovação, hidratação, infusão de ativos e luminosidade",
@@ -297,28 +318,29 @@ export default function Home() {
           </h2>
         </div>
 
-        <div className="protocol-tabs" role="tablist" aria-label="Protocolos">
-          {protocols.map((item, index) => (
-            <button
-              key={item.name}
-              role="tab"
-              aria-selected={activeProtocol === index}
-              aria-controls="protocol-panel"
-              className={activeProtocol === index ? "active" : ""}
-              onClick={() => setActiveProtocol(index)}
-            >
-              <span>0{index + 1}</span>
-              {item.name}
-            </button>
-          ))}
-        </div>
+        <div className="protocol-explorer">
+          <div className="protocol-tabs" role="tablist" aria-label="Protocolos">
+            {protocols.map((item, index) => (
+              <button
+                key={item.name}
+                role="tab"
+                aria-selected={activeProtocol === index}
+                aria-controls="protocol-panel"
+                className={activeProtocol === index ? "active" : ""}
+                onClick={() => setActiveProtocol(index)}
+              >
+                <span>0{index + 1}</span>
+                {item.name}
+              </button>
+            ))}
+          </div>
 
-        <article
-          className="protocol-card"
-          id="protocol-panel"
-          role="tabpanel"
-          key={protocol.name}
-        >
+          <article
+            className="protocol-card"
+            id="protocol-panel"
+            role="tabpanel"
+            key={protocol.name}
+          >
           <div className="protocol-overview">
             <div className="protocol-copy">
               <p className="protocol-eyebrow">
@@ -335,18 +357,39 @@ export default function Home() {
               </button>
             </div>
 
-            <figure className="protocol-visual">
-              <Image
-                src={`${publicBasePath}${protocol.image}`}
-                alt={`Visual conceitual do protocolo ${protocol.name}`}
-                fill
-                sizes="(max-width: 980px) 100vw, 52vw"
-                unoptimized
-                priority={activeProtocol === 0}
-              />
+            <figure
+              className={`protocol-visual protocol-visual-${protocol.visualType}`}
+            >
+              {protocol.stepImages ? (
+                <div className="framelift-step-grid">
+                  {protocol.stepImages.map((image, index) => (
+                    <Image
+                      src={`${publicBasePath}${image}`}
+                      alt={`Etapa ${index + 1} do protocolo FrameLift`}
+                      width={450}
+                      height={416}
+                      key={image}
+                      unoptimized
+                    />
+                  ))}
+                </div>
+              ) : (
+                <Image
+                  src={`${publicBasePath}${protocol.image}`}
+                  alt={protocol.visualAlt}
+                  fill
+                  sizes="(max-width: 980px) 100vw, 52vw"
+                  unoptimized
+                  priority={activeProtocol === 0}
+                />
+              )}
               <figcaption>
-                <span>Visual conceitual de aplicação</span>
-                <span>Imagem ilustrativa</span>
+                <span>
+                  {protocol.visualType === "technology"
+                    ? "Tecnologia do protocolo"
+                    : "Mapa de aplicação"}
+                </span>
+                <span>Referência clínica do briefing</span>
               </figcaption>
             </figure>
           </div>
@@ -390,6 +433,27 @@ export default function Home() {
               </aside>
             )}
 
+            {protocol.followUp && (
+              <aside className="protocol-follow-up">
+                <Image
+                  src={`${publicBasePath}${protocol.followUp.beforeImage}`}
+                  alt="Registro inicial do protocolo Body Secrets"
+                  width={378}
+                  height={340}
+                  unoptimized
+                />
+                <div>
+                  <span>ANTES E DEPOIS</span>
+                  <h4>{protocol.followUp.title}</h4>
+                  <p>{protocol.followUp.copy}</p>
+                  <div className="follow-up-status">
+                    <span>APÓS 30 DIAS</span>
+                    <strong>Imagem em atualização</strong>
+                  </div>
+                </div>
+              </aside>
+            )}
+
             {protocol.note && (
               <p className="protocol-note">
                 <span>TRANSPARÊNCIA</span>
@@ -397,7 +461,8 @@ export default function Home() {
               </p>
             )}
           </div>
-        </article>
+          </article>
+        </div>
       </section>
 
       <section

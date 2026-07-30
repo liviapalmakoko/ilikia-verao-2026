@@ -3039,6 +3039,41 @@ input::placeholder {
 }
 
 /* Protocolos — versão completa baseada no conteúdo clínico do briefing */
+.protocols-section {
+  padding-block: clamp(2.6rem, 4vw, 4rem);
+}
+
+.protocols-heading {
+  width: min(1240px, 100%);
+  max-width: none;
+  margin-bottom: 1.25rem;
+}
+
+.protocols-heading .section-index {
+  margin-bottom: 0.55rem;
+}
+
+.protocols-heading h2 {
+  font-size: clamp(2.45rem, 4vw, 4.2rem);
+  line-height: 0.9;
+}
+
+.protocol-tabs,
+.protocol-card {
+  width: min(1240px, 100%);
+}
+
+.protocol-tabs button {
+  padding: 0.72rem 0.85rem 0.78rem;
+  font-size: clamp(1rem, 1.55vw, 1.35rem);
+}
+
+.protocol-tabs button span {
+  display: inline;
+  margin: 0 0.5rem 0 0;
+  font-size: 0.56rem;
+}
+
 .protocol-card {
   min-height: 0;
   display: flex;
@@ -3064,36 +3099,36 @@ input::placeholder {
 .protocol-overview {
   display: grid;
   grid-template-columns: 0.93fr 1.07fr;
-  min-height: 540px;
+  min-height: 350px;
 }
 
 .protocol-copy {
   min-width: 0;
-  padding: clamp(2.4rem, 4.5vw, 4.7rem);
+  padding: clamp(1.5rem, 2.5vw, 2.6rem);
   background:
     linear-gradient(145deg, rgba(255, 253, 245, 0.94), rgba(240, 227, 187, 0.88));
 }
 
 .protocol-eyebrow {
-  margin-bottom: 0.85rem;
+  margin-bottom: 0.45rem;
 }
 
 .protocol-copy h3 {
-  margin-bottom: 1.35rem;
-  font-size: clamp(3.15rem, 5.2vw, 5.35rem);
+  margin-bottom: 0.65rem;
+  font-size: clamp(2.65rem, 4vw, 4.25rem);
 }
 
 .protocol-copy > p:not(.protocol-eyebrow) {
   max-width: 560px;
-  font-size: clamp(0.92rem, 1.12vw, 1.04rem);
-  line-height: 1.65;
+  font-size: clamp(0.78rem, 0.9vw, 0.9rem);
+  line-height: 1.48;
 }
 
 .protocol-focus {
   display: grid;
-  gap: 0.4rem;
-  margin: 1.55rem 0 1.7rem;
-  padding: 1rem 0;
+  gap: 0.22rem;
+  margin: 0.8rem 0 0.9rem;
+  padding: 0.6rem 0;
   border-block: 1px solid rgba(40, 71, 43, 0.24);
 }
 
@@ -3111,12 +3146,12 @@ input::placeholder {
 .protocol-focus strong {
   max-width: 520px;
   color: var(--green-dark);
-  font-size: 0.9rem;
-  line-height: 1.45;
+  font-size: 0.78rem;
+  line-height: 1.35;
 }
 
 .protocol-visual {
-  min-height: 540px;
+  min-height: 350px;
   position: relative;
   display: block;
   padding: 0;
@@ -3166,6 +3201,63 @@ input::placeholder {
   text-transform: uppercase;
 }
 
+.protocol-visual-clinical-map,
+.protocol-visual-framelift-steps {
+  background:
+    radial-gradient(circle at 50% 45%, rgba(255, 255, 255, 0.96), transparent 44%),
+    #e9dfc3;
+}
+
+.protocol-visual-clinical-map::after,
+.protocol-visual-framelift-steps::after {
+  background: linear-gradient(180deg, transparent 78%, rgba(25, 44, 34, 0.14));
+}
+
+.protocol-visual-clinical-map > img {
+  padding: clamp(0.9rem, 2vw, 1.6rem);
+  object-fit: contain;
+}
+
+.protocol-visual-clinical-map figcaption,
+.protocol-visual-framelift-steps figcaption {
+  color: rgba(25, 44, 34, 0.66);
+}
+
+.protocol-visual-framelift-steps {
+  min-height: 350px;
+  display: grid;
+  place-items: center;
+  padding: 1.4rem 1.5rem 2.7rem;
+}
+
+.framelift-step-grid {
+  width: min(100%, 660px);
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.7rem;
+}
+
+.protocol-visual .framelift-step-grid img {
+  width: 100%;
+  height: auto;
+  display: block;
+  object-fit: contain;
+  box-shadow: 0 12px 28px rgba(67, 50, 22, 0.12);
+}
+
+.protocol-visual-technology {
+  background:
+    radial-gradient(circle at 55% 36%, rgba(50, 154, 195, 0.52), transparent 28%),
+    linear-gradient(150deg, #093748, #071f2c);
+}
+
+.protocol-visual-technology > img {
+  padding: clamp(1.2rem, 2.8vw, 2.5rem) clamp(2rem, 5vw, 5.5rem) 2.8rem;
+  object-fit: contain;
+}
+
 .protocol-information {
   display: grid;
   grid-template-columns: minmax(0, 1fr);
@@ -3179,7 +3271,7 @@ input::placeholder {
 
 .protocol-components {
   min-width: 0;
-  padding: clamp(1.7rem, 3vw, 2.65rem);
+  padding: clamp(1.1rem, 1.8vw, 1.6rem);
 }
 
 .protocol-information-heading {
@@ -3187,13 +3279,13 @@ input::placeholder {
   align-items: baseline;
   justify-content: space-between;
   gap: 1rem;
-  margin-bottom: 1.25rem;
+  margin-bottom: 0.7rem;
 }
 
 .protocol-information-heading p {
   margin: 0;
   color: rgba(25, 44, 34, 0.66);
-  font-size: 0.72rem;
+  font-size: 0.65rem;
 }
 
 .protocol-component-grid {
@@ -3205,7 +3297,7 @@ input::placeholder {
 .protocol-component {
   min-width: 0;
   position: relative;
-  padding: 1.35rem 1.3rem 1.25rem;
+  padding: 0.9rem 1rem 0.85rem;
   border-right: 1px solid rgba(40, 71, 43, 0.24);
 }
 
@@ -3215,8 +3307,8 @@ input::placeholder {
 
 .component-number {
   position: absolute;
-  top: 1.35rem;
-  right: 1.25rem;
+  top: 0.9rem;
+  right: 0.9rem;
   color: rgba(40, 71, 43, 0.38);
   font-size: 0.6rem;
   letter-spacing: 0.12em;
@@ -3240,8 +3332,8 @@ input::placeholder {
 }
 
 .protocol-component h4 {
-  margin: 0 0 1rem;
-  font-size: clamp(1.8rem, 2.5vw, 2.6rem);
+  margin: 0 0 0.55rem;
+  font-size: clamp(1.55rem, 2vw, 2.15rem);
   line-height: 0.9;
 }
 
@@ -3249,12 +3341,12 @@ input::placeholder {
   display: flex;
   flex-direction: column;
   gap: 0.12rem;
-  margin-bottom: 0.9rem;
+  margin-bottom: 0.55rem;
 }
 
 .component-amount strong {
   color: var(--green-dark);
-  font-size: 1rem;
+  font-size: 0.88rem;
 }
 
 .component-amount span {
@@ -3270,10 +3362,10 @@ input::placeholder {
 }
 
 .protocol-component li {
-  padding: 0.34rem 0;
+  padding: 0.22rem 0;
   border-top: 1px solid rgba(40, 71, 43, 0.14);
   color: var(--green-dark);
-  font-size: 0.73rem;
+  font-size: 0.67rem;
   font-weight: 700;
 }
 
@@ -3284,7 +3376,7 @@ input::placeholder {
 }
 
 .protocol-evidence {
-  padding: clamp(1.9rem, 3.2vw, 3rem);
+  padding: clamp(1.2rem, 2vw, 1.8rem);
   color: #fffdf4;
   background:
     radial-gradient(circle at 100% 0%, rgba(241, 223, 102, 0.18), transparent 34%),
@@ -3297,17 +3389,17 @@ input::placeholder {
 
 .protocol-evidence h4 {
   max-width: 360px;
-  margin: 0.65rem 0 1.4rem;
+  margin: 0.45rem 0 0.8rem;
   color: #fffdf4;
-  font-size: clamp(2rem, 3.2vw, 3.35rem);
+  font-size: clamp(1.7rem, 2.5vw, 2.6rem);
   line-height: 0.92;
 }
 
 .protocol-evidence li {
   position: relative;
-  padding: 0.55rem 0 0.55rem 1.1rem;
+  padding: 0.35rem 0 0.35rem 1rem;
   border-top: 1px solid rgba(255, 255, 255, 0.16);
-  font-size: 0.76rem;
+  font-size: 0.69rem;
   line-height: 1.4;
 }
 
@@ -3316,7 +3408,7 @@ input::placeholder {
   width: 5px;
   height: 5px;
   position: absolute;
-  top: 0.88rem;
+  top: 0.65rem;
   left: 0;
   border-radius: 50%;
   background: var(--sun);
@@ -3334,16 +3426,84 @@ input::placeholder {
   display: flex;
   gap: 1rem;
   margin: 0;
-  padding: 1rem clamp(1.7rem, 3vw, 2.65rem);
+  padding: 0.7rem clamp(1.1rem, 1.8vw, 1.6rem);
   border-top: 1px solid rgba(40, 71, 43, 0.18);
   color: rgba(25, 44, 34, 0.72);
-  font-size: 0.69rem;
+  font-size: 0.63rem;
   line-height: 1.45;
 }
 
 .protocol-note > span {
   flex: 0 0 auto;
   color: var(--green);
+}
+
+.protocol-follow-up {
+  display: grid;
+  grid-template-columns: minmax(110px, 0.36fr) minmax(0, 1fr);
+  gap: clamp(0.8rem, 1.4vw, 1.25rem);
+  align-items: center;
+  padding: clamp(1.1rem, 1.8vw, 1.6rem);
+  border-left: 1px solid rgba(40, 71, 43, 0.18);
+  background:
+    linear-gradient(120deg, rgba(255, 255, 255, 0.52), transparent),
+    rgba(238, 228, 194, 0.72);
+}
+
+.protocol-follow-up > img {
+  width: 100%;
+  height: auto;
+  display: block;
+  border: 1px solid rgba(40, 71, 43, 0.28);
+}
+
+.protocol-follow-up > div > span {
+  color: #8c7041;
+  font-size: 0.62rem;
+  font-weight: 900;
+  letter-spacing: 0.14em;
+}
+
+.protocol-follow-up h4 {
+  margin: 0.25rem 0 0.45rem;
+  color: var(--green);
+  font-family: "Sketchetik", Impact, sans-serif;
+  font-size: clamp(1.6rem, 2.35vw, 2.45rem);
+  line-height: 0.9;
+  text-transform: uppercase;
+}
+
+.protocol-follow-up p {
+  max-width: 560px;
+  margin: 0;
+  color: rgba(25, 44, 34, 0.74);
+  font-size: 0.68rem;
+  line-height: 1.4;
+}
+
+.follow-up-status {
+  display: grid;
+  gap: 0.16rem;
+  margin-top: 0.6rem;
+  padding: 0.55rem 0.7rem;
+  border-left: 4px solid var(--sun);
+  background: rgba(255, 253, 245, 0.7);
+}
+
+.follow-up-status span {
+  color: rgba(25, 44, 34, 0.58);
+  font-size: 0.56rem;
+  font-weight: 900;
+  letter-spacing: 0.12em;
+}
+
+.follow-up-status strong {
+  color: var(--green-dark);
+  font-size: 0.72rem;
+}
+
+.protocol-information:has(.protocol-follow-up) {
+  grid-template-columns: minmax(0, 1.15fr) minmax(340px, 0.85fr);
 }
 
 @media (max-width: 980px) {
@@ -3361,8 +3521,18 @@ input::placeholder {
     order: -1;
   }
 
-  .protocol-information:has(.protocol-evidence) {
+  .protocol-visual-framelift-steps {
+    min-height: 330px;
+  }
+
+  .protocol-information:has(.protocol-evidence),
+  .protocol-information:has(.protocol-follow-up) {
     grid-template-columns: 1fr;
+  }
+
+  .protocol-follow-up {
+    border-top: 1px solid rgba(40, 71, 43, 0.18);
+    border-left: 0;
   }
 }
 
@@ -3381,6 +3551,17 @@ input::placeholder {
 
   .protocol-visual {
     min-height: 68vw;
+  }
+
+  .protocol-visual-framelift-steps {
+    min-height: 245px;
+    place-items: stretch;
+    overflow-x: auto;
+    padding: 1rem 1rem 2.4rem;
+  }
+
+  .framelift-step-grid {
+    width: 540px;
   }
 
   .protocol-visual figcaption {
@@ -3414,6 +3595,653 @@ input::placeholder {
   .protocol-note {
     display: grid;
     gap: 0.45rem;
+  }
+
+  .protocol-follow-up {
+    grid-template-columns: 1fr;
+  }
+
+  .protocol-follow-up > img {
+    width: min(100%, 310px);
+  }
+}
+
+/* Protocolos — dossiê clínico */
+.protocols-section {
+  padding: clamp(3rem, 5vw, 5.4rem) clamp(1.25rem, 5vw, 5.5rem);
+  background:
+    radial-gradient(circle at 12% 8%, rgba(241, 223, 102, 0.22), transparent 23rem),
+    radial-gradient(circle at 90% 92%, rgba(58, 124, 105, 0.12), transparent 28rem),
+    #f5efd9;
+}
+
+.protocols-heading {
+  width: min(1280px, 100%);
+  display: grid;
+  grid-template-columns: minmax(180px, 0.38fr) minmax(0, 1.62fr);
+  gap: clamp(1.5rem, 4vw, 5rem);
+  align-items: end;
+  margin: 0 auto clamp(1.6rem, 2.5vw, 2.4rem);
+}
+
+.protocols-heading .section-index {
+  margin: 0 0 0.3rem;
+  font-size: 0.65rem;
+  letter-spacing: 0.18em;
+}
+
+.protocols-heading h2 {
+  max-width: 850px;
+  font-size: clamp(2.85rem, 4.7vw, 5rem);
+  line-height: 0.88;
+}
+
+.protocol-explorer {
+  width: min(1280px, 100%);
+  display: grid;
+  grid-template-columns: 210px minmax(0, 1fr);
+  margin: 0 auto;
+  overflow: hidden;
+  border: 1px solid rgba(24, 54, 42, 0.18);
+  border-radius: 1.8rem;
+  background: #fffaf0;
+  box-shadow: 0 28px 80px rgba(58, 49, 26, 0.14);
+}
+
+.protocol-explorer .protocol-tabs {
+  width: auto;
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: auto repeat(4, 1fr);
+  gap: 0.35rem;
+  align-self: stretch;
+  margin: 0;
+  padding: 1.2rem 0.8rem;
+  border: 0;
+  background:
+    radial-gradient(circle at 0 100%, rgba(241, 223, 102, 0.14), transparent 45%),
+    var(--green-dark);
+}
+
+.protocol-explorer .protocol-tabs::before {
+  content: "ESCOLHA O PROTOCOLO";
+  padding: 0.35rem 0.7rem 0.8rem;
+  color: rgba(255, 255, 255, 0.48);
+  font-size: 0.54rem;
+  font-weight: 900;
+  letter-spacing: 0.14em;
+}
+
+.protocol-explorer .protocol-tabs button {
+  min-width: 0;
+  display: grid;
+  grid-template-columns: 2rem minmax(0, 1fr);
+  gap: 0.4rem;
+  align-items: center;
+  padding: 0.8rem 0.7rem;
+  border: 0;
+  border-radius: 0.8rem;
+  color: rgba(255, 255, 255, 0.68);
+  font-size: clamp(1rem, 1.35vw, 1.28rem);
+  line-height: 0.95;
+}
+
+.protocol-explorer .protocol-tabs button span {
+  margin: 0;
+  color: var(--sun);
+  font-size: 0.57rem;
+}
+
+.protocol-explorer .protocol-tabs button.active,
+.protocol-explorer .protocol-tabs button:hover {
+  background: #f3df66;
+  color: var(--green-dark);
+}
+
+.protocol-explorer .protocol-tabs button.active span,
+.protocol-explorer .protocol-tabs button:hover span {
+  color: #8b6b22;
+}
+
+.protocol-explorer .protocol-tabs button:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 2px;
+}
+
+.protocol-explorer .protocol-card {
+  width: 100%;
+  margin: 0;
+  border-radius: 0;
+  box-shadow: none;
+  background: #fffaf0;
+}
+
+.protocol-explorer .protocol-overview {
+  grid-template-columns: minmax(330px, 0.84fr) minmax(440px, 1.16fr);
+  min-height: 355px;
+}
+
+.protocol-explorer .protocol-copy {
+  justify-content: center;
+  padding: clamp(1.7rem, 2.8vw, 3rem);
+  background:
+    linear-gradient(150deg, rgba(255, 253, 247, 0.98), rgba(243, 233, 199, 0.78));
+}
+
+.protocol-explorer .protocol-copy h3 {
+  margin-bottom: 0.75rem;
+  font-size: clamp(3rem, 4.4vw, 4.75rem);
+}
+
+.protocol-explorer .protocol-copy > p:not(.protocol-eyebrow) {
+  max-width: 500px;
+  font-size: clamp(0.8rem, 0.92vw, 0.91rem);
+  line-height: 1.5;
+}
+
+.protocol-explorer .protocol-focus {
+  margin: 0.9rem 0;
+}
+
+.protocol-explorer .protocol-visual,
+.protocol-explorer .protocol-visual-framelift-steps {
+  min-height: 355px;
+}
+
+.protocol-explorer .protocol-visual-clinical-map > img {
+  padding: clamp(1.1rem, 2.2vw, 2.2rem);
+}
+
+.protocol-explorer .protocol-visual-framelift-steps {
+  padding: 1.35rem 1.5rem 2.7rem;
+}
+
+.protocol-explorer .framelift-step-grid {
+  width: min(100%, 690px);
+  gap: 0.8rem;
+}
+
+.protocol-explorer .protocol-information {
+  border-top: 1px solid rgba(40, 71, 43, 0.16);
+  background: #fffaf0;
+}
+
+.protocol-explorer .protocol-components {
+  padding: 1.25rem 1.4rem 1.35rem;
+}
+
+.protocol-explorer .protocol-information-heading {
+  margin-bottom: 0.75rem;
+}
+
+.protocol-explorer .protocol-component-grid {
+  gap: 0.7rem;
+  border: 0;
+}
+
+.protocol-explorer .protocol-component {
+  min-height: 132px;
+  padding: 0.9rem 1rem;
+  border: 1px solid rgba(40, 71, 43, 0.16);
+  border-radius: 0.8rem;
+  background: rgba(241, 232, 196, 0.44);
+}
+
+.protocol-explorer .protocol-component h4 {
+  margin-bottom: 0.45rem;
+  font-size: clamp(1.5rem, 1.8vw, 2rem);
+}
+
+.protocol-explorer .protocol-component li {
+  border-top-color: rgba(40, 71, 43, 0.1);
+}
+
+.protocol-explorer .protocol-evidence {
+  padding: 1.4rem 1.6rem;
+}
+
+.protocol-explorer .protocol-follow-up {
+  padding: 1.25rem 1.4rem;
+}
+
+.protocol-explorer .protocol-note {
+  padding: 0.7rem 1.4rem;
+  background: rgba(241, 232, 196, 0.34);
+}
+
+@media (max-width: 980px) {
+  .protocols-heading {
+    grid-template-columns: 1fr;
+    gap: 0.65rem;
+  }
+
+  .protocol-explorer {
+    grid-template-columns: 1fr;
+  }
+
+  .protocol-explorer .protocol-tabs {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    grid-template-rows: 1fr;
+    padding: 0.65rem;
+  }
+
+  .protocol-explorer .protocol-tabs::before {
+    display: none;
+  }
+
+  .protocol-explorer .protocol-tabs button {
+    grid-template-columns: 1fr;
+    gap: 0.22rem;
+    text-align: center;
+  }
+
+  .protocol-explorer .protocol-overview {
+    grid-template-columns: 1fr;
+    min-height: 0;
+  }
+
+  .protocol-explorer .protocol-visual,
+  .protocol-explorer .protocol-visual-framelift-steps {
+    min-height: min(56vw, 450px);
+  }
+}
+
+@media (max-width: 700px) {
+  .protocols-section {
+    padding: 3.25rem 1rem;
+  }
+
+  .protocols-heading h2 {
+    font-size: clamp(2.6rem, 12vw, 3.65rem);
+  }
+
+  .protocol-explorer {
+    border-radius: 1.2rem;
+  }
+
+  .protocol-explorer .protocol-tabs {
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+  }
+
+  .protocol-explorer .protocol-tabs button {
+    min-width: 142px;
+    scroll-snap-align: start;
+  }
+
+  .protocol-explorer .protocol-copy {
+    padding: 1.7rem 1.2rem 1.9rem;
+  }
+
+  .protocol-explorer .protocol-copy h3 {
+    font-size: clamp(3.1rem, 16vw, 4.5rem);
+  }
+
+  .protocol-explorer .protocol-visual-framelift-steps {
+    min-height: 245px;
+  }
+
+  .protocol-explorer .protocol-component-grid {
+    gap: 0.55rem;
+  }
+
+  .protocol-explorer .protocol-component {
+    border-bottom: 1px solid rgba(40, 71, 43, 0.16);
+  }
+}
+
+/* Protocolos — composição editorial */
+.protocols-heading {
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: end;
+}
+
+.protocols-heading .section-index {
+  grid-column: 1 / -1;
+}
+
+.protocols-heading h2 {
+  max-width: 760px;
+}
+
+.protocol-explorer {
+  display: block;
+  overflow: visible;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+.protocol-explorer .protocol-tabs {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: 1fr;
+  gap: 0;
+  padding: 0;
+  border-block: 1px solid rgba(31, 66, 50, 0.22);
+  background: transparent;
+}
+
+.protocol-explorer .protocol-tabs::before {
+  display: none;
+}
+
+.protocol-explorer .protocol-tabs button {
+  min-height: 62px;
+  display: flex;
+  gap: 0.65rem;
+  justify-content: flex-start;
+  padding: 0.85rem 1rem;
+  border-right: 1px solid rgba(31, 66, 50, 0.22);
+  border-radius: 0;
+  color: rgba(25, 44, 34, 0.58);
+  font-size: clamp(1rem, 1.45vw, 1.35rem);
+  text-align: left;
+}
+
+.protocol-explorer .protocol-tabs button:first-child {
+  border-left: 1px solid rgba(31, 66, 50, 0.22);
+}
+
+.protocol-explorer .protocol-tabs button span {
+  color: #9b7b43;
+}
+
+.protocol-explorer .protocol-tabs button.active,
+.protocol-explorer .protocol-tabs button:hover {
+  background: var(--sun);
+  color: var(--green-dark);
+}
+
+.protocol-explorer .protocol-card {
+  min-height: 590px;
+  display: grid;
+  grid-template-columns: minmax(480px, 1.08fr) minmax(420px, 0.92fr);
+  grid-template-rows: auto 1fr;
+  overflow: hidden;
+  border-radius: 0 0 1.8rem 1.8rem;
+  background: #fffaf0;
+  box-shadow: 0 28px 80px rgba(58, 49, 26, 0.14);
+}
+
+.protocol-explorer .protocol-overview {
+  display: contents;
+}
+
+.protocol-explorer .protocol-copy {
+  grid-column: 2;
+  grid-row: 1;
+  justify-content: flex-start;
+  padding: clamp(1.75rem, 2.6vw, 2.8rem) clamp(1.6rem, 2.7vw, 3rem) 1.15rem;
+  background:
+    linear-gradient(145deg, rgba(255, 253, 247, 0.99), rgba(247, 239, 211, 0.78));
+}
+
+.protocol-explorer .protocol-copy h3 {
+  margin-bottom: 0.6rem;
+  font-size: clamp(3.2rem, 4.8vw, 5rem);
+}
+
+.protocol-explorer .protocol-copy > p:not(.protocol-eyebrow) {
+  font-size: clamp(0.78rem, 0.86vw, 0.88rem);
+  line-height: 1.48;
+}
+
+.protocol-explorer .protocol-focus {
+  margin: 0.75rem 0;
+  padding: 0.55rem 0;
+}
+
+.protocol-explorer .text-link {
+  margin-top: 0.1rem;
+}
+
+.protocol-explorer .protocol-visual,
+.protocol-explorer .protocol-visual-framelift-steps {
+  grid-column: 1;
+  grid-row: 1 / 3;
+  min-height: 590px;
+}
+
+.protocol-explorer .protocol-visual-clinical-map > img {
+  padding: clamp(1.5rem, 3vw, 3rem);
+}
+
+.protocol-explorer .protocol-visual-framelift-steps {
+  align-content: center;
+  padding: 2rem 2rem 3.2rem;
+}
+
+.protocol-explorer .framelift-step-grid {
+  grid-template-columns: repeat(3, 1fr);
+  width: min(100%, 680px);
+  gap: 0.8rem;
+}
+
+.protocol-explorer .protocol-information {
+  grid-column: 2;
+  grid-row: 2;
+  display: block;
+  align-self: stretch;
+  border-top: 1px solid rgba(40, 71, 43, 0.14);
+  background: rgba(255, 250, 240, 0.98);
+}
+
+.protocol-explorer .protocol-components {
+  padding: 1rem clamp(1.6rem, 2.7vw, 3rem) 1.2rem;
+}
+
+.protocol-explorer .protocol-information-heading {
+  margin-bottom: 0.65rem;
+}
+
+.protocol-explorer .protocol-information-heading p {
+  display: none;
+}
+
+.protocol-explorer .protocol-component-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0;
+}
+
+.protocol-explorer .protocol-component {
+  min-height: 0;
+  display: grid;
+  grid-template-columns: minmax(130px, 0.85fr) minmax(90px, 0.55fr) minmax(120px, 1fr);
+  grid-template-rows: auto auto;
+  column-gap: 0.9rem;
+  align-items: center;
+  padding: 0.62rem 1.8rem 0.62rem 0;
+  border: 0;
+  border-top: 1px solid rgba(40, 71, 43, 0.14);
+  border-radius: 0;
+  background: transparent;
+}
+
+.protocol-explorer .protocol-component:last-child {
+  border-bottom: 1px solid rgba(40, 71, 43, 0.14);
+}
+
+.protocol-explorer .protocol-component > p {
+  grid-column: 1;
+  grid-row: 1;
+  margin-bottom: 0.1rem;
+}
+
+.protocol-explorer .protocol-component h4 {
+  grid-column: 1;
+  grid-row: 2;
+  margin: 0;
+  font-size: clamp(1.4rem, 1.7vw, 1.9rem);
+}
+
+.protocol-explorer .component-amount {
+  grid-column: 2;
+  grid-row: 1 / 3;
+  margin: 0;
+}
+
+.protocol-explorer .protocol-component ul {
+  grid-column: 3;
+  grid-row: 1 / 3;
+}
+
+.protocol-explorer .protocol-component li {
+  padding: 0.12rem 0;
+  border: 0;
+  font-size: 0.62rem;
+}
+
+.protocol-explorer .component-number {
+  top: 50%;
+  right: 0;
+  transform: translateY(-50%);
+}
+
+.protocol-explorer .protocol-evidence {
+  margin: 0 1.4rem 1.25rem;
+  padding: 1rem 1.2rem;
+  border-radius: 0.85rem;
+}
+
+.protocol-explorer .protocol-evidence h4 {
+  max-width: none;
+  margin: 0.35rem 0 0.55rem;
+  font-size: clamp(1.55rem, 2vw, 2.1rem);
+}
+
+.protocol-explorer .protocol-evidence ul {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  column-gap: 1rem;
+}
+
+.protocol-explorer .protocol-evidence li {
+  padding-block: 0.28rem;
+  font-size: 0.62rem;
+}
+
+.protocol-explorer .protocol-follow-up {
+  grid-template-columns: 96px minmax(0, 1fr);
+  gap: 0.9rem;
+  margin: 0 1.4rem 1rem;
+  padding: 0.85rem;
+  border: 1px solid rgba(40, 71, 43, 0.16);
+  border-radius: 0.85rem;
+}
+
+.protocol-explorer .protocol-follow-up h4 {
+  font-size: clamp(1.45rem, 1.8vw, 1.9rem);
+}
+
+.protocol-explorer .protocol-follow-up p {
+  font-size: 0.62rem;
+}
+
+.protocol-explorer .follow-up-status {
+  margin-top: 0.45rem;
+  padding: 0.42rem 0.55rem;
+}
+
+.protocol-explorer .protocol-note {
+  padding: 0.6rem clamp(1.6rem, 2.7vw, 3rem);
+  font-size: 0.58rem;
+}
+
+@media (max-width: 980px) {
+  .protocols-heading {
+    grid-template-columns: 1fr;
+  }
+
+  .protocol-explorer .protocol-tabs {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  .protocol-explorer .protocol-tabs button {
+    min-height: 58px;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0.15rem;
+    justify-items: center;
+    text-align: center;
+  }
+
+  .protocol-explorer .protocol-card {
+    min-height: 0;
+    grid-template-columns: 1fr;
+    grid-template-rows: auto;
+  }
+
+  .protocol-explorer .protocol-overview {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+
+  .protocol-explorer .protocol-copy,
+  .protocol-explorer .protocol-visual,
+  .protocol-explorer .protocol-visual-framelift-steps,
+  .protocol-explorer .protocol-information {
+    grid-column: 1;
+    grid-row: auto;
+  }
+
+  .protocol-explorer .protocol-visual,
+  .protocol-explorer .protocol-visual-framelift-steps {
+    min-height: min(58vw, 480px);
+    order: -1;
+  }
+
+  .protocol-explorer .framelift-step-grid {
+    width: min(100%, 680px);
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 700px) {
+  .protocol-explorer .protocol-tabs {
+    display: flex;
+  }
+
+  .protocol-explorer .protocol-tabs button {
+    min-width: 142px;
+  }
+
+  .protocol-explorer .protocol-component {
+    grid-template-columns: 1fr auto;
+    grid-template-rows: auto auto auto;
+    padding-right: 1.3rem;
+  }
+
+  .protocol-explorer .protocol-component > p,
+  .protocol-explorer .protocol-component h4 {
+    grid-column: 1;
+  }
+
+  .protocol-explorer .component-amount {
+    grid-column: 2;
+    grid-row: 1 / 3;
+    text-align: right;
+  }
+
+  .protocol-explorer .protocol-component ul {
+    grid-column: 1 / -1;
+    grid-row: 3;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0 0.8rem;
+    margin-top: 0.35rem;
+  }
+
+  .protocol-explorer .component-number {
+    display: none;
+  }
+
+  .protocol-explorer .protocol-evidence ul {
+    grid-template-columns: 1fr;
   }
 }
 
