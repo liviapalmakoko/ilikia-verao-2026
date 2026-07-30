@@ -51,10 +51,31 @@ const protocols = [
     imageWidth: 412,
     imageHeight: 372,
     visualAlt: "Etapas de aplicação do protocolo FrameLift",
+    /* As legendas vinham gravadas dentro do PNG — e a da etapa 3 trazia o
+       nome "Botulift", que o briefing pede para não exibir. Os arquivos foram
+       recortados na foto; selo e legenda agora são HTML. */
     stepImages: [
-      { src: "/assets/protocols/clinical/framelift-step-1.png", width: 412, height: 372 },
-      { src: "/assets/protocols/clinical/framelift-step-2.png", width: 412, height: 378 },
-      { src: "/assets/protocols/clinical/framelift-step-3.png", width: 450, height: 416 },
+      {
+        src: "/assets/protocols/clinical/framelift-step-1.png",
+        width: 412,
+        height: 209,
+        caption: "Regeneração do colágeno com STIIM",
+        detail: "(CaHA)",
+      },
+      {
+        src: "/assets/protocols/clinical/framelift-step-2.png",
+        width: 412,
+        height: 211,
+        caption: "Estruturação com UP Contour",
+        detail: "(HA)",
+      },
+      {
+        src: "/assets/protocols/clinical/framelift-step-3.png",
+        width: 450,
+        height: 233,
+        caption: "Neuromodulação com neurotransmissor",
+        detail: "(Toxina Botulínica)",
+      },
     ],
     copy:
       "Desenvolvido para pacientes que desejam um rejuvenescimento facial completo, o FrameLift combina qualidade da pele e sustentação com STIIM, estruturação e redefinição dos contornos com UP Contour e suavização das rugas de expressão com um neurotransmissor. O resultado é uma abordagem integrada, natural e harmoniosa.",
@@ -394,23 +415,35 @@ export default function Home() {
                         integração vem de máscara nas bordas, não de corte. */}
                     <div className={`chapter-media chapter-media-${item.visualType}`}>
                       {item.stepImages ? (
-                        <div className="chapter-steps">
+                        <ol className="chapter-steps">
                           {item.stepImages.map((step, stepIndex) => (
-                            <Image
-                              src={`${publicBasePath}${step.src}`}
-                              alt={`Etapa ${stepIndex + 1} do protocolo FrameLift`}
-                              width={step.width}
-                              height={step.height}
-                              key={step.src}
-                              /* eager: em repouso todos os painéis estão
-                                 fechados, e imagem lazy dentro de painel
-                                 fechado só carrega no primeiro hover — a
-                                 abertura piscaria sem a imagem. */
-                              loading="eager"
-                              unoptimized
-                            />
+                            <li key={step.src}>
+                              <div className="chapter-step-media">
+                                <Image
+                                  src={`${publicBasePath}${step.src}`}
+                                  alt={`Etapa ${stepIndex + 1} do protocolo FrameLift`}
+                                  width={step.width}
+                                  height={step.height}
+                                  /* eager: em repouso todos os painéis estão
+                                     fechados, e imagem lazy dentro de painel
+                                     fechado só carrega no primeiro hover — a
+                                     abertura piscaria sem a imagem. */
+                                  loading="eager"
+                                  unoptimized
+                                />
+                                <span
+                                  className="chapter-step-number"
+                                  aria-hidden="true"
+                                >
+                                  {stepIndex + 1}
+                                </span>
+                              </div>
+                              <p className="chapter-step-caption">
+                                {step.caption} <strong>{step.detail}</strong>
+                              </p>
+                            </li>
                           ))}
-                        </div>
+                        </ol>
                       ) : (
                         <Image
                           src={`${publicBasePath}${item.image}`}
@@ -737,6 +770,9 @@ export default function Home() {
                     href="https://ilikia.com/politica-de-privacidade/"
                     target="_blank"
                     rel="noreferrer"
+                    /* O link vive dentro do <label>: sem isto, abrir a
+                       política também marca ou desmarca o consentimento. */
+                    onClick={(event) => event.stopPropagation()}
                   >
                     Política de Privacidade
                   </a>
