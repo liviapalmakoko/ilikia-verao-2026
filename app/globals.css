@@ -110,12 +110,18 @@ p {
   inset: 0;
   pointer-events: none;
   background: radial-gradient(circle at 76% 12%, rgba(255, 234, 162, 0.28), transparent 31%);
-  mix-blend-mode: screen;
+  /* Era `mix-blend-mode: screen`. Blend obriga o navegador a rasterizar a pilha
+     inteira junta a cada frame — nao da pra usar scroll composto, e o p95 do
+     frame ia a 33ms (travadinha visivel). Sobre foto escura, screen a 0.28
+     equivale de perto a normal com opacidade reduzida. */
+  opacity: 0.55;
 }
 
 .film-grain {
   position: absolute;
-  inset: -50%;
+  /* Era inset:-50% pra dar folga ao translate da animacao. Sem animacao, a
+     camada pode ter o tamanho da secao — 4x menos area pra compor por frame. */
+  inset: 0;
   z-index: 2;
   opacity: 0.16;
   pointer-events: none;
@@ -126,22 +132,9 @@ p {
      gerado uma vez e repetido; o visual e o mesmo. */
   background-size: 180px 180px;
   background-repeat: repeat;
-  will-change: transform;
-  animation: grain 0.28s steps(2) infinite;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .film-grain {
-    animation: none;
-  }
-}
-
-@keyframes grain {
-  0% { transform: translate(0, 0); }
-  25% { transform: translate(2%, -3%); }
-  50% { transform: translate(-3%, 2%); }
-  75% { transform: translate(3%, 4%); }
-  100% { transform: translate(-2%, -2%); }
+  /* Grao estatico. Animado (0,28s infinito) ele mantinha a area atras do header
+     sempre suja, forcando o backdrop-filter do header a recalcular a cada frame
+     — mesmo com a pagina parada. Em opacidade 0,16 a textura fica igual. */
 }
 
 .hero-content {
@@ -1559,8 +1552,10 @@ input::placeholder {
 }
 
 .film-grain {
-  opacity: 0.055;
-  mix-blend-mode: soft-light;
+  /* Esta regra vence a de cima (vem depois). Tirado o `mix-blend-mode:
+     soft-light` pelo mesmo motivo dos brilhos: a 0,055 de opacidade o
+     soft-light e imperceptivel, mas o custo de composicao e o mesmo. */
+  opacity: 0.06;
 }
 
 .hero-ocean-back {
