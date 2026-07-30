@@ -57,25 +57,25 @@ const products = [
     category: "BIOESTIMULADOR DE COLÁGENO",
     name: "STIIM",
     tagline: "Sustentação e qualidade de pele",
-    image: "/assets/produto-stiim.jpg",
+    image: "/assets/products/stiim-packshot.png",
   },
   {
     category: "ÁCIDO HIALURÔNICO DE ALTA RETICULAÇÃO",
     name: "UP Max",
     tagline: "Projeção e volumização",
-    image: "/assets/produto-up-max.jpg",
+    image: "/assets/products/up-max-packshot.png",
   },
   {
     category: "PREENCHEDOR À BASE DE ÁCIDO HIALURÔNICO",
     name: "UP Contour",
     tagline: "Estruturação e redefinição dos contornos",
-    image: "/assets/produto-up-contour.jpg",
+    image: "/assets/products/up-contour-packshot.png",
   },
   {
     category: "FIOS ABSORVÍVEIS DE ÁCIDO POLILÁTICO + POLIPROLACTONA",
     name: "APTOS",
     tagline: "Sustentação mecânica dos tecidos",
-    image: "/assets/produto-aptos.jpg",
+    image: "/assets/products/aptos-packshot.png",
   },
   {
     category: "SKINCARE TECNOLÓGICO",
@@ -339,7 +339,7 @@ export default function Home() {
                 <strong>{item.name}</strong>
                 <p>{item.tagline}</p>
                 <span className="technology-panel-link">
-                  Conhecer tecnologia <span aria-hidden="true">→</span>
+                  Tecnologia em destaque
                 </span>
               </div>
             </button>
