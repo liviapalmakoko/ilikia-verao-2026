@@ -556,6 +556,7 @@ export default function Home() {
                 <a href="#estrategia">Para a clínica</a>
               </nav>
               <div className="footer-cta">
+                <p className="footer-column-title">Contato</p>
                 <p>Quer levar os protocolos para sua clínica?</p>
                 <button type="button" onClick={scrollToForm}>
                   Falar com a equipe <span aria-hidden="true">→</span>
