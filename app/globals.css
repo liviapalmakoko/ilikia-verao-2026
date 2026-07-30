@@ -3425,18 +3425,18 @@ input::placeholder {
 
 .products-accordion-section .products-intro {
   width: min(1440px, 100%);
-  min-height: 430px;
+  min-height: 340px;
   display: grid;
   grid-template-columns: minmax(0, 1.25fr) minmax(290px, 0.58fr);
   grid-template-areas:
     "index index"
     "title copy"
     "title action";
-  column-gap: clamp(3rem, 8vw, 9rem);
+  column-gap: clamp(3rem, 7vw, 8rem);
   align-items: end;
   margin: 0 auto;
-  padding: clamp(4.5rem, 8vw, 7.5rem) clamp(1.25rem, 6vw, 7rem)
-    clamp(3.75rem, 6vw, 6rem);
+  padding: clamp(3.75rem, 6vw, 5.5rem) clamp(1.25rem, 6vw, 7rem)
+    clamp(3.5rem, 5vw, 4.75rem);
   text-align: left;
 }
 
@@ -3452,8 +3452,8 @@ input::placeholder {
   max-width: 860px;
   margin: 0;
   color: var(--cream);
-  font-size: clamp(4.3rem, 7.2vw, 8.4rem);
-  line-height: 0.82;
+  font-size: clamp(3.8rem, 5.8vw, 6.8rem);
+  line-height: 0.86;
   text-align: left;
 }
 
@@ -3477,8 +3477,8 @@ input::placeholder {
 }
 
 .technology-accordion {
-  height: min(78svh, 790px);
-  min-height: 620px;
+  height: min(72svh, 700px);
+  min-height: 590px;
   margin-top: 0;
   border: 0;
   background: #063549;
@@ -3494,11 +3494,11 @@ input::placeholder {
   background: var(--panel-bg);
 }
 
-.technology-panel:nth-child(1) { --panel-bg: #f4c900; --panel-ink: #20352a; }
-.technology-panel:nth-child(2) { --panel-bg: #19a8df; --panel-ink: #06324b; }
-.technology-panel:nth-child(3) { --panel-bg: #f36f21; --panel-ink: #4c220d; }
-.technology-panel:nth-child(4) { --panel-bg: #e94b8b; --panel-ink: #40172d; }
-.technology-panel:nth-child(5) { --panel-bg: #078cc4; --panel-ink: #052f46; }
+.technology-panel:nth-child(1) { --panel-bg: #f0c91f; --panel-ink: #20352a; }
+.technology-panel:nth-child(2) { --panel-bg: #3b9fc8; --panel-ink: #062f46; }
+.technology-panel:nth-child(3) { --panel-bg: #ef762f; --panel-ink: #4c220d; }
+.technology-panel:nth-child(4) { --panel-bg: #dce6e8; --panel-ink: #344c56; }
+.technology-panel:nth-child(5) { --panel-bg: #1588b7; --panel-ink: #052f46; }
 
 .technology-panel::after,
 .technology-panel:hover::after,
@@ -3512,23 +3512,29 @@ input::placeholder {
 
 .technology-panel-image,
 .technology-panel:hover .technology-panel-image,
-.technology-panel:focus-visible .technology-panel-image,
-.technology-panel.is-active .technology-panel-image,
-.technology-panel.is-active:hover .technology-panel-image,
-.technology-panel.is-active:focus-visible .technology-panel-image {
+.technology-panel:focus-visible .technology-panel-image {
   padding: 0;
-  object-fit: cover;
-  object-position: center;
-  opacity: 1;
-  filter: none;
-  transform: scale(1.015);
-  transition: transform 1080ms cubic-bezier(0.16, 1, 0.3, 1);
+  object-fit: contain;
+  object-position: right center;
+  opacity: 0.86;
+  filter: drop-shadow(0 24px 30px rgba(7, 35, 39, 0.18));
+  transform: translate3d(22%, 4%, 0) scale(2.15);
+  transform-origin: 72% 55%;
+  transition:
+    opacity 600ms ease,
+    transform 1050ms cubic-bezier(0.16, 1, 0.3, 1),
+    filter 600ms ease;
 }
 
 .technology-panel.is-active .technology-panel-image,
 .technology-panel.is-active:hover .technology-panel-image,
 .technology-panel.is-active:focus-visible .technology-panel-image {
-  transform: scale(1);
+  padding: 1.75rem 1.5rem 1.75rem 35%;
+  object-fit: contain;
+  object-position: right center;
+  opacity: 1;
+  filter: drop-shadow(0 30px 34px rgba(7, 35, 39, 0.2));
+  transform: translate3d(0, 0, 0) scale(1);
 }
 
 .technology-panel-number {
@@ -3546,24 +3552,26 @@ input::placeholder {
   left: 1.2rem;
   color: var(--panel-ink);
   font-family: "Sketchetik", Impact, sans-serif;
-  font-size: clamp(1.35rem, 2vw, 2.2rem);
+  width: calc(100% - 2rem);
+  font-size: clamp(0.82rem, 1.15vw, 1.2rem);
   font-weight: 900;
   letter-spacing: -0.02em;
   line-height: 0.9;
   text-transform: uppercase;
-  writing-mode: vertical-rl;
-  transform: rotate(180deg);
+  white-space: normal;
+  writing-mode: horizontal-tb;
+  transform: none;
 }
 
 .technology-panel.is-active .technology-panel-name,
 .technology-panel:hover .technology-panel-name,
 .technology-panel:focus-visible .technology-panel-name {
   opacity: 0;
-  transform: rotate(180deg) translateY(8px);
+  transform: translateY(8px);
 }
 
 .technology-panel-detail {
-  width: min(34%, 390px);
+  width: min(36%, 360px);
   top: 50%;
   right: auto;
   bottom: auto;
@@ -3572,14 +3580,14 @@ input::placeholder {
   border: 0;
   color: var(--panel-ink);
   background: transparent;
-  transform: translate(-18px, -44%);
+  transform: translate(-18px, -48%);
 }
 
 .technology-panel.is-active .technology-panel-detail,
 .technology-panel.is-active:hover .technology-panel-detail,
 .technology-panel.is-active:focus-visible .technology-panel-detail {
   opacity: 1;
-  transform: translate(0, -44%);
+  transform: translate(0, -48%);
 }
 
 .technology-panel-detail > span:first-child {
@@ -3593,10 +3601,10 @@ input::placeholder {
 .technology-panel-detail strong {
   color: currentColor;
   font-family: "Sketchetik", Impact, sans-serif;
-  font-size: clamp(3.9rem, 6.8vw, 8rem);
+  font-size: clamp(3.5rem, 5.4vw, 6.3rem);
   font-weight: 900;
   letter-spacing: -0.045em;
-  line-height: 0.78;
+  line-height: 0.82;
   text-transform: uppercase;
 }
 
@@ -3610,6 +3618,24 @@ input::placeholder {
   opacity: 0.78;
 }
 
+.technology-panel:nth-child(4).is-active .technology-panel-image,
+.technology-panel:nth-child(4).is-active:hover .technology-panel-image,
+.technology-panel:nth-child(4).is-active:focus-visible .technology-panel-image {
+  transform: translate3d(1.5%, 0, 0) scale(1.1);
+  transform-origin: right center;
+}
+
+.technology-panel:nth-child(5) .technology-panel-detail strong {
+  font-size: clamp(3rem, 3.8vw, 4.5rem);
+}
+
+.technology-panel:nth-child(5).is-active .technology-panel-image,
+.technology-panel:nth-child(5).is-active:hover .technology-panel-image,
+.technology-panel:nth-child(5).is-active:focus-visible .technology-panel-image {
+  padding-left: 42%;
+  transform: translate3d(5%, 0, 0) scale(0.96);
+}
+
 @media (max-width: 760px) {
   .products-accordion-section .products-intro {
     min-height: 0;
@@ -3619,7 +3645,9 @@ input::placeholder {
 
   .products-accordion-section .products-intro h2 {
     margin-top: 2.5rem;
-    font-size: clamp(4rem, 18vw, 6.2rem);
+    font-size: clamp(3.2rem, 13.5vw, 5rem);
+    line-height: 0.88;
+    overflow-wrap: anywhere;
   }
 
   .products-accordion-section .products-intro > p:not(.section-index) {
@@ -3647,7 +3675,7 @@ input::placeholder {
     top: auto;
     bottom: 1rem;
     left: 1rem;
-    font-size: 1.5rem;
+    font-size: 1.35rem;
     writing-mode: horizontal-tb;
     transform: none;
   }
@@ -3678,6 +3706,27 @@ input::placeholder {
 
   .technology-panel-detail strong {
     font-size: clamp(3.2rem, 15vw, 5.2rem);
+  }
+
+  .technology-panel.is-active .technology-panel-image,
+  .technology-panel.is-active:hover .technology-panel-image,
+  .technology-panel.is-active:focus-visible .technology-panel-image,
+  .technology-panel:nth-child(5).is-active .technology-panel-image,
+  .technology-panel:nth-child(5).is-active:hover .technology-panel-image,
+  .technology-panel:nth-child(5).is-active:focus-visible .technology-panel-image {
+    padding: 1rem 0.5rem 11.5rem;
+    object-position: center;
+    transform: translate3d(-4%, -1%, 0) scale(0.96);
+  }
+
+  .technology-panel:nth-child(4).is-active .technology-panel-image,
+  .technology-panel:nth-child(4).is-active:hover .technology-panel-image,
+  .technology-panel:nth-child(4).is-active:focus-visible .technology-panel-image {
+    transform: translate3d(0, -2%, 0) scale(1.02);
+  }
+
+  .technology-panel:nth-child(5) .technology-panel-detail strong {
+    font-size: clamp(2.7rem, 12.2vw, 4.3rem);
   }
 }
 
