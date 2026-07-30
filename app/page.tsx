@@ -1,7 +1,16 @@
 "use client";
 
-import { FormEvent, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import Image from "next/image";
+import {
+  captureTracking,
+  pushDataLayer,
+  submitLead,
+  trackLead,
+  FORM_NAME,
+  RD_IDENTIFIER,
+  type LeadData,
+} from "./lead";
 import {
   CircuitBoard,
   ClipboardCheck,
@@ -18,7 +27,7 @@ const protocols = [
     eyebrow: "CONTORNO CORPORAL",
     name: "Beauty Code",
     visualType: "clinical-map",
-    image: "/assets/protocols/clinical/beauty-code-map.png",
+    image: "/assets/protocols/clinical/beauty-code-map.webp",
     imageWidth: 910,
     imageHeight: 492,
     visualAlt:
@@ -47,7 +56,7 @@ const protocols = [
     eyebrow: "REJUVENESCIMENTO FACIAL",
     name: "FrameLift",
     visualType: "framelift-steps",
-    image: "/assets/protocols/clinical/framelift-step-1.png",
+    image: "/assets/protocols/clinical/framelift-step-1.webp",
     imageWidth: 412,
     imageHeight: 372,
     visualAlt: "Etapas de aplicação do protocolo FrameLift",
@@ -56,21 +65,21 @@ const protocols = [
        recortados na foto; selo e legenda agora são HTML. */
     stepImages: [
       {
-        src: "/assets/protocols/clinical/framelift-step-1.png",
+        src: "/assets/protocols/clinical/framelift-step-1.webp",
         width: 412,
         height: 209,
         caption: "Regeneração do colágeno com STIIM",
         detail: "(CaHA)",
       },
       {
-        src: "/assets/protocols/clinical/framelift-step-2.png",
+        src: "/assets/protocols/clinical/framelift-step-2.webp",
         width: 412,
         height: 211,
         caption: "Estruturação com UP Contour",
         detail: "(HA)",
       },
       {
-        src: "/assets/protocols/clinical/framelift-step-3.png",
+        src: "/assets/protocols/clinical/framelift-step-3.webp",
         width: 450,
         height: 233,
         caption: "Neuromodulação com neurotransmissor",
@@ -109,7 +118,7 @@ const protocols = [
     eyebrow: "FIRMEZA ABDOMINAL",
     name: "Body Secrets",
     visualType: "clinical-map",
-    image: "/assets/protocols/clinical/body-secrets-map.png",
+    image: "/assets/protocols/clinical/body-secrets-map.webp",
     imageWidth: 654,
     imageHeight: 464,
     visualAlt:
@@ -138,7 +147,7 @@ const protocols = [
     eyebrow: "SKINCARE TECNOLÓGICO",
     name: "Summer Skin",
     visualType: "technology",
-    image: "/assets/protocols/clinical/hydrafacial-machine.png",
+    image: "/assets/protocols/clinical/hydrafacial-machine.webp",
     imageWidth: 489,
     imageHeight: 972,
     visualAlt: "Equipamento Hydrafacial utilizado no protocolo Summer Skin",
@@ -173,7 +182,7 @@ const products = [
     category: "BIOESTIMULADOR DE COLÁGENO",
     name: "STIIM",
     tagline: "Sustentação e qualidade de pele",
-    image: "/assets/products/stiim-packshot.png",
+    image: "/assets/products/stiim-packshot.webp",
     width: 656,
     height: 1154,
   },
@@ -181,7 +190,7 @@ const products = [
     category: "ÁCIDO HIALURÔNICO DE ALTA RETICULAÇÃO",
     name: "UP Max",
     tagline: "Projeção e volumização",
-    image: "/assets/products/up-max-packshot.png",
+    image: "/assets/products/up-max-packshot.webp",
     width: 487,
     height: 1154,
   },
@@ -189,7 +198,7 @@ const products = [
     category: "PREENCHEDOR À BASE DE ÁCIDO HIALURÔNICO",
     name: "UP Contour",
     tagline: "Estruturação e redefinição dos contornos",
-    image: "/assets/products/up-contour-packshot.png",
+    image: "/assets/products/up-contour-packshot.webp",
     width: 563,
     height: 1112,
   },
@@ -197,7 +206,7 @@ const products = [
     category: "FIOS ABSORVÍVEIS DE ÁCIDO POLILÁTICO + POLIPROLACTONA",
     name: "APTOS",
     tagline: "Sustentação mecânica dos tecidos",
-    image: "/assets/products/aptos-packshot.png",
+    image: "/assets/products/aptos-packshot.webp",
     width: 1045,
     height: 691,
   },
@@ -205,7 +214,7 @@ const products = [
     category: "SKINCARE TECNOLÓGICO",
     name: "Hydrafacial",
     tagline: "Renovação, hidratação e infusão de ativos",
-    image: "/assets/products/hydrafacial-technology.png",
+    image: "/assets/products/hydrafacial-technology.webp",
     width: 585,
     height: 1194,
   },
@@ -242,11 +251,62 @@ export default function Home() {
   // abre enquanto o mouse está sobre a faixa. No toque, abre no clique.
   const [openProtocol, setOpenProtocol] = useState(-1);
   const [submitted, setSubmitted] = useState(false);
+  const [sending, setSending] = useState(false);
+  const [submitError, setSubmitError] = useState("");
   const [menuOpen, setMenuOpen] = useState(false);
 
-  function handleSubmit(event: FormEvent<HTMLFormElement>) {
+  // Guarda a origem da visita (utm/gclid/fbclid) pro lead chegar no RD
+  // com a campanha certa mesmo quando a conversao acontece dias depois.
+  useEffect(() => {
+    captureTracking();
+  }, []);
+
+  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    setSubmitted(true);
+    if (sending) return;
+
+    const form = event.currentTarget;
+    const values = new FormData(form);
+    const text = (field: string) => String(values.get(field) ?? "").trim();
+
+    const data: LeadData = {
+      nome: text("nome"),
+      email: text("email"),
+      telefone: text("telefone"),
+      documento: text("documento"),
+      especialidade: text("especialidade"),
+      registro: text("registro"),
+      cidade: text("cidade"),
+      estado: text("estado"),
+      consentimento: values.get("consentimento") === "on",
+    };
+
+    setSubmitError("");
+    setSending(true);
+    pushDataLayer({
+      event: "lead_form_submit",
+      form_id: RD_IDENTIFIER,
+      form_name: FORM_NAME,
+    });
+
+    try {
+      await submitLead(data);
+      trackLead(data);
+      form.reset();
+      setSubmitted(true);
+    } catch (error) {
+      console.error("[VERAO] Erro ao enviar lead pro RD Station:", error);
+      pushDataLayer({
+        event: "lead_form_error",
+        form_id: RD_IDENTIFIER,
+        error_message: String(error instanceof Error ? error.message : error),
+      });
+      setSubmitError(
+        "Não foi possível enviar agora. Tente novamente em instantes ou fale com a gente por outro canal.",
+      );
+    } finally {
+      setSending(false);
+    }
   }
 
   return (
@@ -299,7 +359,7 @@ export default function Home() {
             <span className="visually-hidden">Corpo &amp; Alma Brasileira</span>
             <Image
               className="hero-lettering"
-              src={`${publicBasePath}/assets/corpo-alma-lettering.png`}
+              src={`${publicBasePath}/assets/corpo-alma-lettering.webp`}
               alt=""
               width={1800}
               height={446}
@@ -429,6 +489,7 @@ export default function Home() {
                                      fechado só carrega no primeiro hover — a
                                      abertura piscaria sem a imagem. */
                                   loading="eager"
+                                  fetchPriority="low"
                                   unoptimized
                                 />
                                 <span
@@ -451,6 +512,7 @@ export default function Home() {
                           width={item.imageWidth}
                           height={item.imageHeight}
                           loading="eager"
+                                  fetchPriority="low"
                           unoptimized
                         />
                       )}
@@ -779,8 +841,19 @@ export default function Home() {
                   .
                 </span>
               </label>
-              <button className="button button-green" type="submit">
-                Quero receber uma apresentação <span aria-hidden="true">→</span>
+              {submitError ? (
+                <p className="form-error" role="alert">
+                  {submitError}
+                </p>
+              ) : null}
+              <button
+                className="button button-green"
+                type="submit"
+                disabled={sending}
+                aria-busy={sending}
+              >
+                {sending ? "Enviando…" : "Quero receber uma apresentação"}{" "}
+                <span aria-hidden="true">→</span>
               </button>
             </form>
           )}

@@ -5,29 +5,43 @@ LPs ILIKIA/AICONIQ (nginx:alpine + Traefik, `/opt/clients/ilikia/<projeto>/produ
 
 O GitHub Pages continua funcionando normalmente — os dois convivem.
 
-## Build
+## Publicar
 
 ```bash
-pnpm install --frozen-lockfile
-pnpm build:static      # export estatico SEM basePath, canonical/OG no dominio koko.ag
+./deploy.sh
 ```
 
-Gera `out/`, que é o diretório servido pelo container (read-only).
+Faz build, sincroniza pro diretório servido e roda smoke test. É o único comando
+necessário no dia a dia.
+
+Por baixo:
+
+```bash
+pnpm build:static           # export estatico SEM basePath, canonical/OG no dominio koko.ag
+rsync -a --delete out/ www/ # www/ e o que o container serve
+docker compose up -d        # no-op se ja estiver rodando
+```
 
 Diferença para o `build:pages` (GitHub Pages): lá o site vive em
-`/ilikia-verao-2026/`, aqui na raiz. O `basePath` virou configurável
+`/ilikia-verao-2026/`, aqui na raiz. O `basePath` é configurável
 (`NEXT_PUBLIC_BASE_PATH`) e o domínio de canonical/OG também
 (`NEXT_PUBLIC_SITE_URL`) — ver `next.config.ts` e `app/layout.tsx`.
 
-## Subir / atualizar
+### Por que `www/` e não `out/`
 
-```bash
-cd /opt/clients/ilikia/verao-2026/production
-git pull && pnpm install --frozen-lockfile && pnpm build:static
-docker compose up -d        # so precisa recriar se mudar compose/nginx.conf
-```
+Duas armadilhas que custaram deploy quebrado:
 
-Como o volume é `./out`, atualizar o build já publica — sem restart.
+1. `next build` **apaga e recria** o `out/`. Com bind mount direto em `out/`, o
+   container fica preso ao inode antigo e passa a servir 404 em tudo.
+2. Recriar o container abre uma janela em que o **Traefik responde 404** — e o
+   **Cloudflare cacheia esse 404** por ~3 min, deixando o site fora do ar mesmo
+   com o origin já saudável.
+
+Com o rsync pro `www/`, publicar é só trocar arquivo: sem restart, sem janela.
+O `nginx.conf` também marca 404 como `no-store`, pro edge não segurar erro.
+
+Se precisar mesmo recriar o container (mudou `docker-compose.yml` ou
+`nginx.conf`), espere ~3 min antes de confiar no smoke test.
 
 ## Infra
 
@@ -43,14 +57,37 @@ A LP cita marcas de terceiros (ex.: Hydrafacial). Espelho `*.koko.ag` indexado j
 gerou notificação de marca em 19/07/2026 — por isso `X-Robots-Tag: noindex` vem
 tanto do nginx quanto do middleware do Traefik. Se precisar fechar o acesso de
 vez, basta descomentar o bloco `auth_basic` em `nginx.conf` e criar o
-`.htpasswd-dev` (`htpasswd -nbB <user> <senha> > out/.htpasswd-dev`).
+`.htpasswd-dev` (`htpasswd -nbB <user> <senha> > www/.htpasswd-dev`).
 
-## Pendências conhecidas (não resolvidas neste deploy)
+## Tracking
 
-1. **Tracking ausente** — a LP não tem Pixel/CAPI/GA4. As outras 10 LPs usam o
-   gateway `track-ilikia.koko.ag` (`window.__TRK__` + `t.js`).
-2. **Formulário não envia nada** — `handleSubmit` só faz `preventDefault()` e
-   mostra a tela de sucesso. O lead é descartado (o próprio README do repo avisa).
-3. **Peso das imagens** — ~29 MB em `out/`, tudo PNG/JPG, `og.png` com 3 MB.
-   As demais LPs já foram convertidas para WebP.
-4. **Fontes `.otf`** — converter para `woff2` (as outras LPs já usam).
+Mesmo sistema global das outras LPs: `window.__TRK__` (Pixel ILIKIA
+`666277432116339`, gateway `track-ilikia.koko.ag`) declarado em `app/layout.tsx`,
+e o `t.js` carregado pelo `app/cookie-banner.tsx` no modelo opt-out — só não
+carrega se a pessoa clicar "Recusar".
+
+O `ga4Id` está vazio porque a marca ILIKIA ainda não tem GA4 (pendência antiga,
+vale pras 8 LPs ILIKIA). Quando houver Measurement ID + api_secret, preencher o
+`.env` do gateway e o `ga4Id` aqui.
+
+## Formulário
+
+`app/lead.ts` — RD Station Marketing v1.3, mesmo token público da conta ILIKIA,
+identificador `verao-2026-lp-koko`. Envia UTM/gclid/fbclid guardados da primeira
+visita (30 dias, `localStorage`) e dispara `trk.lead` (Pixel + CAPI) no sucesso.
+
+## Performance
+
+Imagens em WebP, fontes em woff2, hero com variante mobile de 1024px.
+Referenciadas: ~2 MB (era ~13,9 MB). Página completa: ~600 KB no mobile.
+
+Lighthouse mobile: 81/100, LCP 4,27s, CLS 0. O que ainda segura o LCP são as
+camadas decorativas empilhadas do hero (`mask-image` + `mix-blend-mode` +
+animações infinitas) — reduzir isso mexe no visual, então ficou como decisão de
+design.
+
+## Pendências
+
+- GA4 da marca ILIKIA (vale pras 8 LPs, não só esta).
+- 16 arquivos em `public/assets/` não são referenciados por nada (~11 MB). Não
+  pesam no carregamento, mas engordam o repo e o deploy.

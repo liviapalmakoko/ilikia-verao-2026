@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import CookieBanner from "./cookie-banner";
 
 const isStaticExport =
   process.env.STATIC_EXPORT === "true" || process.env.GITHUB_PAGES === "true";
@@ -39,9 +40,9 @@ export const metadata: Metadata = {
     url: publicUrl,
     images: [
       {
-        url: `${publicUrl}/og.png`,
-        width: 1800,
-        height: 943,
+        url: `${publicUrl}/og.jpg`,
+        width: 1200,
+        height: 627,
         alt: "Corpo & Alma Brasileira - Protocolos de Verão 2026",
       },
     ],
@@ -50,8 +51,18 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title,
     description,
-    images: [`${publicUrl}/og.png`],
+    images: [`${publicUrl}/og.jpg`],
   },
+};
+
+// Tracking global ILIKIA/AICONIQ — Pixel + GA4 + CAPI (server-side) via gateway.
+// O `__TRK__` so declara a config; quem dispara e o t.js, carregado pelo
+// CookieBanner (opt-out). ga4Id vazio: a marca ILIKIA ainda nao tem GA4.
+const TRK_CONFIG = {
+  brand: "ilikia",
+  pixelId: "666277432116339",
+  ga4Id: "",
+  collect: "https://track-ilikia.koko.ag/collect",
 };
 
 export default function RootLayout({
@@ -61,7 +72,42 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="pt-BR">
-      <body>{children}</body>
+      <head>
+        {/* O hero e o LCP e vem de background-image no CSS — sem preload, o
+            browser so descobre a imagem depois de baixar e casar o CSS. */}
+        <link
+          rel="preload"
+          as="image"
+          href={`${basePath}/assets/hero-oficial-mobile.webp`}
+          media="(max-width: 900px)"
+          fetchPriority="high"
+        />
+        <link
+          rel="preload"
+          as="image"
+          href={`${basePath}/assets/hero-oficial.webp`}
+          media="(min-width: 901px)"
+          fetchPriority="high"
+        />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `window.__TRK__=${JSON.stringify(TRK_CONFIG)};`,
+          }}
+        />
+      </head>
+      <body>
+        {children}
+        <CookieBanner />
+        <noscript>
+          <img
+            height="1"
+            width="1"
+            style={{ display: "none" }}
+            src={`https://www.facebook.com/tr?id=${TRK_CONFIG.pixelId}&ev=PageView&noscript=1`}
+            alt=""
+          />
+        </noscript>
+      </body>
     </html>
   );
 }

@@ -2,7 +2,7 @@
 
 @font-face {
   font-family: "Sketchetik";
-  src: url("/fonts/sketchetik-regular.otf") format("opentype");
+  src: url("/fonts/sketchetik-regular.woff2") format("woff2");
   font-weight: 400;
   font-style: normal;
   font-display: swap;
@@ -10,7 +10,7 @@
 
 @font-face {
   font-family: "Sketchetik";
-  src: url("/fonts/sketchetik-black.otf") format("opentype");
+  src: url("/fonts/sketchetik-black.woff2") format("woff2");
   font-weight: 900;
   font-style: normal;
   font-display: swap;
@@ -27,6 +27,16 @@
   --ocean: #082f45;
   --paper: #f5f0e3;
   --white: #fffdf5;
+
+  /* Hero e o elemento de LCP. No mobile serve uma versao de 1024px
+     (37 KB) em vez da de 1920px (417 KB). */
+  --hero-image: url("/assets/hero-oficial.webp");
+}
+
+@media (max-width: 900px) {
+  :root {
+    --hero-image: url("/assets/hero-oficial-mobile.webp");
+  }
 }
 
 * {
@@ -83,7 +93,7 @@ p {
   background:
     linear-gradient(90deg, rgba(10, 28, 28, 0.64) 0%, rgba(10, 28, 28, 0.22) 54%, rgba(10, 28, 28, 0.12) 100%),
     linear-gradient(0deg, rgba(4, 25, 35, 0.42), transparent 55%),
-    url("/assets/hero-oficial.jpg") center / cover no-repeat;
+    var(--hero-image) center / cover no-repeat;
 }
 
 .hero::after,
@@ -106,7 +116,20 @@ p {
   opacity: 0.16;
   pointer-events: none;
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.48'/%3E%3C/svg%3E");
+  /* Sem background-size, o feTurbulence e calculado sobre o elemento inteiro —
+     que com inset:-50% da 4x a viewport. Rasterizar isso segurava a primeira
+     pintura do hero (LCP ~6,6s no mobile). Como ladrilho de 180px, o ruido e
+     gerado uma vez e repetido; o visual e o mesmo. */
+  background-size: 180px 180px;
+  background-repeat: repeat;
+  will-change: transform;
   animation: grain 0.28s steps(2) infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .film-grain {
+    animation: none;
+  }
 }
 
 @keyframes grain {
@@ -263,7 +286,7 @@ p {
   min-height: 680px;
   background:
     linear-gradient(0deg, rgba(13, 47, 64, 0.32), transparent 50%),
-    url("/assets/paciente-verao.jpg") center / cover no-repeat;
+    url("/assets/paciente-verao.webp") center / cover no-repeat;
 }
 
 .patient-content {
@@ -319,7 +342,7 @@ p {
   background:
     radial-gradient(circle at 75% 15%, rgba(255, 255, 255, 0.95), transparent 22%),
     linear-gradient(135deg, rgba(240, 227, 187, 0.84), rgba(255, 253, 245, 0.9)),
-    url("/assets/mar-profundo.jpg") center / cover no-repeat;
+    url("/assets/mar-profundo.webp") center / cover no-repeat;
 }
 
 .protocols-heading {
@@ -393,7 +416,7 @@ p {
   color: var(--white);
   background:
     linear-gradient(90deg, rgba(18, 24, 19, 0.42) 0%, rgba(18, 24, 19, 0.17) 56%, rgba(18, 24, 19, 0.03) 100%),
-    url("/assets/estrategia-verao-horizontal-v2.png") center / cover no-repeat;
+    url("/assets/estrategia-verao-horizontal-v2.webp") center / cover no-repeat;
 }
 
 .strategy-overlay {
@@ -424,7 +447,7 @@ p {
   pointer-events: none;
   background:
     linear-gradient(90deg, rgba(18, 24, 19, 0.42) 0%, rgba(18, 24, 19, 0.17) 56%, rgba(18, 24, 19, 0.03) 100%),
-    url("/assets/estrategia-mar-clean-v1.png") center / cover no-repeat;
+    url("/assets/estrategia-mar-clean-v1.webp") center / cover no-repeat;
   filter: contrast(1.035) saturate(1.025);
   will-change: transform;
 }
@@ -548,7 +571,7 @@ p {
   position: relative;
   background:
     linear-gradient(0deg, rgba(8, 47, 69, 0.3), transparent 45%),
-    url("/assets/nossa-essencia-d02efc55.png") left center / cover no-repeat;
+    url("/assets/nossa-essencia-d02efc55.webp") left center / cover no-repeat;
 }
 
 .form-section {
@@ -566,7 +589,7 @@ p {
   color: var(--cream);
   background:
     linear-gradient(0deg, rgba(6, 38, 54, 0.76), transparent 55%),
-    url("/assets/formulario-verao.jpg") center / cover no-repeat;
+    url("/assets/formulario-verao.webp") center / cover no-repeat;
 }
 
 .form-image > div {
@@ -673,6 +696,22 @@ input::placeholder {
 
 .consent a:hover {
   color: var(--green);
+}
+
+/* Erro de envio do formulario (RD Station fora do ar, rede caiu etc.). */
+.form-error {
+  margin: 0.4rem 0 -0.4rem;
+  padding: 0.9rem 1.1rem;
+  border-left: 3px solid #b4462f;
+  background: rgba(180, 70, 47, 0.08);
+  color: #8c3423;
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+.button-green[disabled] {
+  opacity: 0.6;
+  cursor: progress;
 }
 
 .success-message {
@@ -945,7 +984,7 @@ input::placeholder {
 
 .hero-ocean {
   z-index: 0;
-  background-image: url("/assets/hero-oficial.jpg");
+  background-image: var(--hero-image);
   background-position: center;
   background-size: cover;
   mask-image: linear-gradient(to bottom, transparent 48%, rgba(0, 0, 0, 0.2) 58%, #000 73%);
@@ -1467,7 +1506,7 @@ input::placeholder {
   text-align: center;
   background:
     linear-gradient(180deg, rgba(6, 35, 42, 0.12) 0%, rgba(7, 39, 46, 0.32) 52%, rgba(4, 28, 35, 0.64) 100%),
-    url("/assets/hero-oficial.jpg") center / cover no-repeat;
+    var(--hero-image) center / cover no-repeat;
 }
 
 .hero-content {
@@ -1757,7 +1796,7 @@ input::placeholder {
   overflow: hidden;
   background:
     linear-gradient(90deg, rgba(20, 20, 14, 0.28) 0%, rgba(20, 20, 14, 0.14) 44%, rgba(20, 20, 14, 0.01) 72%),
-    url("/assets/paciente-verao-cliente.png") center 50% / cover no-repeat;
+    url("/assets/paciente-verao-cliente.webp") center 50% / cover no-repeat;
 }
 
 .patient-content {
@@ -1798,7 +1837,7 @@ input::placeholder {
     align-items: flex-end;
     background:
       linear-gradient(180deg, rgba(12, 17, 13, 0.02) 12%, rgba(12, 17, 13, 0.24) 42%, rgba(12, 17, 13, 0.88) 76%),
-      url("/assets/paciente-verao-cliente.png") 68% center / cover no-repeat;
+      url("/assets/paciente-verao-cliente.webp") 68% center / cover no-repeat;
   }
 
   .patient-content {
@@ -2918,5 +2957,81 @@ input::placeholder {
   .footer-bottom a {
     display: inline-block;
     padding-block: 0.75rem;
+  }
+}
+
+/* ==========================================================================
+   Banner de cookies (opt-out) — mesmo modelo das demais LPs ILIKIA
+   ========================================================================== */
+.cookie-banner {
+  position: fixed;
+  right: 1rem;
+  bottom: 1rem;
+  left: 1rem;
+  z-index: 60;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem 1.5rem;
+  align-items: center;
+  justify-content: space-between;
+  margin-inline: auto;
+  max-width: 880px;
+  padding: 1.1rem 1.3rem;
+  border: 1px solid rgba(255, 253, 245, 0.18);
+  background: var(--ocean);
+  color: var(--white);
+  box-shadow: 0 18px 45px rgba(6, 43, 61, 0.35);
+}
+
+.cookie-banner p {
+  flex: 1 1 380px;
+  margin: 0;
+  font-size: 0.82rem;
+  line-height: 1.6;
+}
+
+.cookie-actions {
+  display: flex;
+  flex-shrink: 0;
+  gap: 0.6rem;
+}
+
+.cookie-actions button {
+  padding: 0.7rem 1.4rem;
+  border: 1px solid rgba(255, 253, 245, 0.45);
+  background: transparent;
+  color: var(--white);
+  font: inherit;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.cookie-actions button:hover {
+  background: rgba(255, 253, 245, 0.12);
+}
+
+.cookie-actions .cookie-accept {
+  border-color: var(--sun);
+  background: var(--sun);
+  color: var(--ocean);
+}
+
+.cookie-actions .cookie-accept:hover {
+  background: var(--white);
+  border-color: var(--white);
+}
+
+@media (max-width: 560px) {
+  .cookie-banner {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .cookie-actions button {
+    flex: 1;
   }
 }
