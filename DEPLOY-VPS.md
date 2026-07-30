@@ -81,10 +81,14 @@ visita (30 dias, `localStorage`) e dispara `trk.lead` (Pixel + CAPI) no sucesso.
 Imagens em WebP, fontes em woff2, hero com variante mobile de 1024px.
 Referenciadas: ~2 MB (era ~13,9 MB). Página completa: ~600 KB no mobile.
 
-Lighthouse mobile: 81/100, LCP 4,27s, CLS 0. O que ainda segura o LCP são as
-camadas decorativas empilhadas do hero (`mask-image` + `mix-blend-mode` +
-animações infinitas) — reduzir isso mexe no visual, então ficou como decisão de
-design.
+Lighthouse mobile: 72/100, LCP 6,78s, CLS 0, TBT 200ms. O LCP é quase todo
+"render delay" (~5s): as camadas decorativas empilhadas do hero (`mask-image` +
+`mix-blend-mode` + animações infinitas sobre imagem full-screen) seguram a
+primeira pintura. Reduzir isso mexe no visual — ficou como decisão de design.
+
+Uma correção do `.film-grain` já saiu daqui: ele gerava ruído `feTurbulence`
+sobre 4× a viewport (`inset: -50%` sem `background-size`); virou ladrilho de
+180px, visual idêntico.
 
 ## Pendências
 
