@@ -57,26 +57,31 @@ const products = [
     category: "BIOESTIMULADOR DE COLÁGENO",
     name: "STIIM",
     tagline: "Sustentação e qualidade de pele",
+    image: "/assets/produto-stiim.jpg",
   },
   {
     category: "ÁCIDO HIALURÔNICO DE ALTA RETICULAÇÃO",
     name: "UP Max",
     tagline: "Projeção e volumização",
+    image: "/assets/produto-up-max.jpg",
   },
   {
     category: "PREENCHEDOR À BASE DE ÁCIDO HIALURÔNICO",
     name: "UP Contour",
     tagline: "Estruturação e redefinição dos contornos",
+    image: "/assets/produto-up-contour.jpg",
   },
   {
     category: "FIOS ABSORVÍVEIS DE ÁCIDO POLILÁTICO + POLIPROLACTONA",
     name: "APTOS",
     tagline: "Sustentação mecânica dos tecidos",
+    image: "/assets/produto-aptos.jpg",
   },
   {
     category: "SKINCARE TECNOLÓGICO",
     name: "Hydrafacial",
     tagline: "Renovação, hidratação e infusão de ativos",
+    image: "/assets/produto-hydrafacial.jpg",
   },
 ];
 
@@ -99,6 +104,7 @@ function scrollToForm() {
 
 export default function Home() {
   const [activeProtocol, setActiveProtocol] = useState(0);
+  const [activeProduct, setActiveProduct] = useState(0);
   const [submitted, setSubmitted] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
 
@@ -280,7 +286,11 @@ export default function Home() {
         </article>
       </section>
 
-      <section className="products-section" id="tecnologias" aria-labelledby="products-title">
+      <section
+        className="products-section products-accordion-section"
+        id="tecnologias"
+        aria-labelledby="products-title"
+      >
         <div className="products-intro">
           <p className="section-index">TECNOLOGIAS</p>
           <h2 id="products-title">
@@ -296,22 +306,46 @@ export default function Home() {
             Quero adquirir os produtos <span aria-hidden="true">↘</span>
           </button>
         </div>
-        <div className="product-grid">
+        <div
+          className="technology-accordion"
+          aria-label="Tecnologias da campanha"
+        >
           {products.map((item, index) => (
-            <article className="product-card" key={item.name}>
-              <p className="product-number">0{index + 1}</p>
-              <p className="product-category">{item.category}</p>
-              <div className="product-wordmark" aria-hidden="true">
-                <span>{item.name}</span>
-              </div>
-              <div className="product-reveal">
+            <button
+              className={
+                activeProduct === index
+                  ? "technology-panel is-active"
+                  : "technology-panel"
+              }
+              key={item.name}
+              type="button"
+              aria-expanded={activeProduct === index}
+              onMouseEnter={() => setActiveProduct(index)}
+              onFocus={() => setActiveProduct(index)}
+              onClick={() => setActiveProduct(index)}
+            >
+              <Image
+                className="technology-panel-image"
+                src={`${publicBasePath}${item.image}`}
+                alt=""
+                fill
+                sizes="(max-width: 700px) 100vw, 55vw"
+                unoptimized
+              />
+              <span className="technology-panel-number">0{index + 1}</span>
+              <span className="technology-panel-name">{item.name}</span>
+              <div className="technology-panel-detail">
+                <span>{item.category}</span>
                 <strong>{item.name}</strong>
-                <span>{item.tagline}</span>
+                <p>{item.tagline}</p>
+                <span className="technology-panel-link">
+                  Conhecer tecnologia <span aria-hidden="true">→</span>
+                </span>
               </div>
-            </article>
+            </button>
           ))}
         </div>
-        <p className="touch-hint">Toque em um produto para ver os detalhes.</p>
+        <p className="touch-hint">Toque em uma tecnologia para expandir.</p>
       </section>
 
       <section
