@@ -536,36 +536,21 @@ export default function Home() {
       </section>
 
       <footer className="site-footer">
-        <div className="footer-sun" aria-hidden="true" />
         <div className="footer-shell">
           <div className="footer-main">
             <div className="footer-brand-copy">
-              <p className="footer-kicker">ILIKIA&amp;Co · Verão 2026</p>
-              <h2>
-                Corpo &amp; Alma
-                <span>Brasileira.</span>
-              </h2>
+              <p className="footer-title">Corpo &amp; Alma Brasileira</p>
               <p className="footer-description">
-                Ciência, tecnologia e experiência clínica reunidas em
-                protocolos que valorizam a beleza brasileira.
+                Protocolos de Verão 2026 · ILIKIA&amp;Co
               </p>
             </div>
 
             <nav className="footer-navigation" aria-label="Navegação do rodapé">
-              <p>Explore</p>
               <a href="#mudanca">Contexto</a>
               <a href="#protocolos">Protocolos</a>
               <a href="#tecnologias">Tecnologias</a>
-              <a href="#estrategia">Para a clínica</a>
+              <a href="#contato">Contato</a>
             </nav>
-
-            <div className="footer-contact">
-              <p className="footer-contact-label">Para sua clínica</p>
-              <h3>Conheça a estratégia completa para o verão.</h3>
-              <button type="button" onClick={scrollToForm}>
-                Falar com a equipe <span aria-hidden="true">↘</span>
-              </button>
-            </div>
           </div>
 
           <div className="footer-bottom">
