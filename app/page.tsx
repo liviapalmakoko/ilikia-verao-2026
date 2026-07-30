@@ -539,18 +539,29 @@ export default function Home() {
         <div className="footer-shell">
           <div className="footer-main">
             <div className="footer-brand-copy">
+              <p className="footer-kicker">ILIKIA&amp;Co · Verão 2026</p>
               <p className="footer-title">Corpo &amp; Alma Brasileira</p>
               <p className="footer-description">
-                Protocolos de Verão 2026 · ILIKIA&amp;Co
+                Protocolos que unem ciência, tecnologia e experiência clínica
+                para valorizar a beleza brasileira.
               </p>
             </div>
 
-            <nav className="footer-navigation" aria-label="Navegação do rodapé">
-              <a href="#mudanca">Contexto</a>
-              <a href="#protocolos">Protocolos</a>
-              <a href="#tecnologias">Tecnologias</a>
-              <a href="#contato">Contato</a>
-            </nav>
+            <div className="footer-actions">
+              <nav className="footer-navigation" aria-label="Navegação do rodapé">
+                <p>Explore</p>
+                <a href="#mudanca">Contexto</a>
+                <a href="#protocolos">Protocolos</a>
+                <a href="#tecnologias">Tecnologias</a>
+                <a href="#estrategia">Para a clínica</a>
+              </nav>
+              <div className="footer-cta">
+                <p>Quer levar os protocolos para sua clínica?</p>
+                <button type="button" onClick={scrollToForm}>
+                  Falar com a equipe <span aria-hidden="true">→</span>
+                </button>
+              </div>
+            </div>
           </div>
 
           <div className="footer-bottom">
