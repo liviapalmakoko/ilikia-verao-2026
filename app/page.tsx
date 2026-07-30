@@ -19,6 +19,8 @@ const protocols = [
     name: "Beauty Code",
     visualType: "clinical-map",
     image: "/assets/protocols/clinical/beauty-code-map.png",
+    imageWidth: 910,
+    imageHeight: 492,
     visualAlt:
       "Mapa de aplicação do protocolo Beauty Code para projeção, volumização e qualidade tecidual",
     copy:
@@ -46,11 +48,13 @@ const protocols = [
     name: "FrameLift",
     visualType: "framelift-steps",
     image: "/assets/protocols/clinical/framelift-step-1.png",
+    imageWidth: 412,
+    imageHeight: 372,
     visualAlt: "Etapas de aplicação do protocolo FrameLift",
     stepImages: [
-      "/assets/protocols/clinical/framelift-step-1.png",
-      "/assets/protocols/clinical/framelift-step-2.png",
-      "/assets/protocols/clinical/framelift-step-3.png",
+      { src: "/assets/protocols/clinical/framelift-step-1.png", width: 412, height: 372 },
+      { src: "/assets/protocols/clinical/framelift-step-2.png", width: 412, height: 378 },
+      { src: "/assets/protocols/clinical/framelift-step-3.png", width: 450, height: 416 },
     ],
     copy:
       "Desenvolvido para pacientes que desejam um rejuvenescimento facial completo, o FrameLift combina qualidade da pele e sustentação com STIIM, estruturação e redefinição dos contornos com UP Contour e suavização das rugas de expressão com um neurotransmissor. O resultado é uma abordagem integrada, natural e harmoniosa.",
@@ -71,21 +75,22 @@ const protocols = [
         benefits: ["Estruturação", "Redefinição dos contornos"],
       },
       {
-        name: "Neurotransmissor",
+        // Hífen suave: se o nome não couber na coluna, quebra em "Neuro-".
+        name: "Neuro­transmissor",
         category: "Neuromodulação",
         amount: "1 frasco",
         presentation: "150 U",
         benefits: ["Suavização das rugas", "Reprogramação muscular"],
       },
     ],
-    note:
-      "Conforme orientação do briefing, a marca e a embalagem do neuromodulador não são exibidas.",
   },
   {
     eyebrow: "FIRMEZA ABDOMINAL",
     name: "Body Secrets",
     visualType: "clinical-map",
     image: "/assets/protocols/clinical/body-secrets-map.png",
+    imageWidth: 654,
+    imageHeight: 464,
     visualAlt:
       "Mapa de vetores do protocolo Body Secrets para firmeza e sustentação abdominal",
     copy:
@@ -107,20 +112,14 @@ const protocols = [
         benefits: ["Sustentação", "Qualidade da pele"],
       },
     ],
-    note:
-      "O material de acompanhamento após 30 dias ainda não foi fornecido; por isso, esta página não apresenta um resultado clínico simulado.",
-    followUp: {
-      beforeImage: "/assets/protocols/clinical/body-secrets-before.jpg",
-      title: "Acompanhamento clínico",
-      copy:
-        "O registro inicial já foi realizado. A imagem de 30 dias será inserida após a atualização final do material clínico.",
-    },
   },
   {
     eyebrow: "SKINCARE TECNOLÓGICO",
     name: "Summer Skin",
     visualType: "technology",
     image: "/assets/protocols/clinical/hydrafacial-machine.png",
+    imageWidth: 489,
+    imageHeight: 972,
     visualAlt: "Equipamento Hydrafacial utilizado no protocolo Summer Skin",
     copy:
       "Para pacientes que não querem abrir mão da rotina de verão para cuidar da pele, o Summer Skin utiliza a tecnologia patenteada Vortex-Fusion® da Hydrafacial. O protocolo promove renovação, hidratação e infusão de ativos em um único procedimento, sem downtime, para uma pele saudável, luminosa e pronta para acompanhar o ritmo da estação.",
@@ -141,40 +140,53 @@ const protocols = [
       "Reconhecida por celebridades e especialistas em beleza",
       "Mais de 80% dos pacientes relatam melhora da qualidade da pele*",
     ],
-    source: "*Fonte indicada no briefing: Journal of Clinical and Aesthetic Dermatology.",
+    source: "*Journal of Clinical and Aesthetic Dermatology.",
   },
 ];
 
+/* Os packshots foram recortados na caixa do conteúdo, então width/height são
+   as medidas reais do produto — é isso que permite alinhar a fileira pela
+   base e dar peso visual equivalente a caixas de formatos diferentes. */
 const products = [
   {
     category: "BIOESTIMULADOR DE COLÁGENO",
     name: "STIIM",
     tagline: "Sustentação e qualidade de pele",
     image: "/assets/products/stiim-packshot.png",
+    width: 656,
+    height: 1154,
   },
   {
     category: "ÁCIDO HIALURÔNICO DE ALTA RETICULAÇÃO",
     name: "UP Max",
     tagline: "Projeção e volumização",
     image: "/assets/products/up-max-packshot.png",
+    width: 487,
+    height: 1154,
   },
   {
     category: "PREENCHEDOR À BASE DE ÁCIDO HIALURÔNICO",
     name: "UP Contour",
     tagline: "Estruturação e redefinição dos contornos",
     image: "/assets/products/up-contour-packshot.png",
+    width: 563,
+    height: 1112,
   },
   {
     category: "FIOS ABSORVÍVEIS DE ÁCIDO POLILÁTICO + POLIPROLACTONA",
     name: "APTOS",
     tagline: "Sustentação mecânica dos tecidos",
     image: "/assets/products/aptos-packshot.png",
+    width: 1045,
+    height: 691,
   },
   {
     category: "SKINCARE TECNOLÓGICO",
     name: "Hydrafacial",
     tagline: "Renovação, hidratação e infusão de ativos",
     image: "/assets/products/hydrafacial-technology.png",
+    width: 585,
+    height: 1194,
   },
 ];
 
@@ -188,6 +200,15 @@ const benefits = [
 ];
 
 
+/* Só abre no hover onde existe cursor de verdade. Em touch o mouseenter
+   dispara junto com o toque, e o capítulo abriria e fecharia no mesmo gesto. */
+function pointerHasHover() {
+  return (
+    typeof window !== "undefined" &&
+    window.matchMedia("(hover: hover) and (pointer: fine)").matches
+  );
+}
+
 function scrollToForm() {
   document.getElementById("contato")?.scrollIntoView({
     behavior: "smooth",
@@ -196,8 +217,9 @@ function scrollToForm() {
 }
 
 export default function Home() {
-  const [activeProtocol, setActiveProtocol] = useState(0);
-  const [activeProduct, setActiveProduct] = useState(0);
+  // -1 = todos fechados. É o estado de repouso: com cursor, o capítulo só
+  // abre enquanto o mouse está sobre a faixa. No toque, abre no clique.
+  const [openProtocol, setOpenProtocol] = useState(-1);
   const [submitted, setSubmitted] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
 
@@ -205,8 +227,6 @@ export default function Home() {
     event.preventDefault();
     setSubmitted(true);
   }
-
-  const protocol = protocols[activeProtocol];
 
   return (
     <main>
@@ -276,7 +296,7 @@ export default function Home() {
             medicina estética mundial.
           </p>
           <button className="button button-sun" onClick={scrollToForm}>
-            Quero conhecer os protocolos
+            Quero conhecer os protocolos!
             <span aria-hidden="true">↘</span>
           </button>
         </div>
@@ -316,166 +336,166 @@ export default function Home() {
             <br />
             <span>para o verão brasileiro.</span>
           </h2>
+          <p className="protocols-lead">
+            Quatro abordagens que combinam as tecnologias ILIKIA para as
+            demandas mais buscadas da estação.
+          </p>
         </div>
 
-        <div className="protocol-explorer">
-          <div className="protocol-tabs" role="tablist" aria-label="Protocolos">
-            {protocols.map((item, index) => (
-              <button
+        <div
+          className="protocol-accordion"
+          data-open={openProtocol}
+          onMouseLeave={() => {
+            if (pointerHasHover()) setOpenProtocol(-1);
+          }}
+        >
+          {protocols.map((item, index) => {
+            const open = openProtocol === index;
+            return (
+              <article
+                className={open ? "protocol-chapter is-open" : "protocol-chapter"}
+                id={`protocolo-0${index + 1}`}
                 key={item.name}
-                role="tab"
-                aria-selected={activeProtocol === index}
-                aria-controls="protocol-panel"
-                className={activeProtocol === index ? "active" : ""}
-                onClick={() => setActiveProtocol(index)}
               >
-                <span>0{index + 1}</span>
-                {item.name}
-              </button>
-            ))}
-          </div>
+                <h3 className="chapter-heading">
+                  <button
+                    type="button"
+                    aria-expanded={open}
+                    aria-controls={`painel-0${index + 1}`}
+                    /* Com hover, clicar num capítulo já aberto não fecha:
+                       fechar deixaria o painel piscando sob o cursor. */
+                    onClick={() =>
+                      setOpenProtocol(open && !pointerHasHover() ? -1 : index)
+                    }
+                    onMouseEnter={() => {
+                      if (pointerHasHover()) setOpenProtocol(index);
+                    }}
+                    onFocus={() => setOpenProtocol(index)}
+                  >
+                    <span className="chapter-titles">
+                      <span className="chapter-eyebrow">{item.eyebrow}</span>
+                      <span className="chapter-name">{item.name}</span>
+                    </span>
+                    <span className="chapter-toggle" aria-hidden="true" />
+                  </button>
+                </h3>
 
-          <article
-            className="protocol-card"
-            id="protocol-panel"
-            role="tabpanel"
-            key={protocol.name}
-          >
-          <div className="protocol-overview">
-            <div className="protocol-copy">
-              <p className="protocol-eyebrow">
-                PROTOCOLO 0{activeProtocol + 1} · {protocol.eyebrow}
-              </p>
-              <h3>{protocol.name}</h3>
-              <p>{protocol.copy}</p>
-              <div className="protocol-focus">
-                <span>Foco clínico</span>
-                <strong>{protocol.focus}</strong>
-              </div>
-              <button className="text-link" onClick={scrollToForm}>
-                Quero conhecer esse protocolo <span aria-hidden="true">→</span>
-              </button>
-            </div>
-
-            <figure
-              className={`protocol-visual protocol-visual-${protocol.visualType}`}
-            >
-              {protocol.stepImages ? (
-                <div className="framelift-step-grid">
-                  {protocol.stepImages.map((image, index) => (
-                    <Image
-                      src={`${publicBasePath}${image}`}
-                      alt={`Etapa ${index + 1} do protocolo FrameLift`}
-                      width={450}
-                      height={416}
-                      key={image}
-                      unoptimized
-                    />
-                  ))}
-                </div>
-              ) : (
-                <Image
-                  src={`${publicBasePath}${protocol.image}`}
-                  alt={protocol.visualAlt}
-                  fill
-                  sizes="(max-width: 980px) 100vw, 52vw"
-                  unoptimized
-                  priority={activeProtocol === 0}
-                />
-              )}
-              <figcaption>
-                <span>
-                  {protocol.visualType === "technology"
-                    ? "Tecnologia do protocolo"
-                    : "Mapa de aplicação"}
-                </span>
-                <span>Referência clínica do briefing</span>
-              </figcaption>
-            </figure>
-          </div>
-
-          <div className="protocol-information">
-            <div className="protocol-components">
-              <div className="protocol-information-heading">
-                <span>COMPOSIÇÃO DO PROTOCOLO</span>
-                <p>Produtos, apresentações e funções previstas no briefing.</p>
-              </div>
-              <div className="protocol-component-grid">
-                {protocol.components.map((component, index) => (
-                  <article className="protocol-component" key={component.name}>
-                    <span className="component-number">0{index + 1}</span>
-                    <p>{component.category}</p>
-                    <h4>{component.name}</h4>
-                    <div className="component-amount">
-                      <strong>{component.amount}</strong>
-                      <span>{component.presentation}</span>
+                {/* Painel sempre no DOM (indexável); `inert` tira o conteúdo
+                    fechado do foco e dos leitores de tela. */}
+                <div
+                  className="chapter-panel"
+                  id={`painel-0${index + 1}`}
+                  inert={!open}
+                >
+                  <div className="chapter-inner">
+                    {/* Sem placa nem moldura: a imagem assenta direto no campo
+                        do capítulo. Os mapas são opacos e ocupam o arquivo de
+                        borda a borda, então recortar cortaria conteúdo — a
+                        integração vem de máscara nas bordas, não de corte. */}
+                    <div className={`chapter-media chapter-media-${item.visualType}`}>
+                      {item.stepImages ? (
+                        <div className="chapter-steps">
+                          {item.stepImages.map((step, stepIndex) => (
+                            <Image
+                              src={`${publicBasePath}${step.src}`}
+                              alt={`Etapa ${stepIndex + 1} do protocolo FrameLift`}
+                              width={step.width}
+                              height={step.height}
+                              key={step.src}
+                              /* eager: em repouso todos os painéis estão
+                                 fechados, e imagem lazy dentro de painel
+                                 fechado só carrega no primeiro hover — a
+                                 abertura piscaria sem a imagem. */
+                              loading="eager"
+                              unoptimized
+                            />
+                          ))}
+                        </div>
+                      ) : (
+                        <Image
+                          src={`${publicBasePath}${item.image}`}
+                          alt={item.visualAlt}
+                          width={item.imageWidth}
+                          height={item.imageHeight}
+                          loading="eager"
+                          unoptimized
+                        />
+                      )}
                     </div>
-                    <ul>
-                      {component.benefits.map((benefit) => (
-                        <li key={benefit}>{benefit}</li>
-                      ))}
-                    </ul>
-                  </article>
-                ))}
-              </div>
-            </div>
 
-            {protocol.evidence && (
-              <aside className="protocol-evidence">
-                <span>POR TRÁS DA PELE DO VERÃO</span>
-                <h4>Uma tecnologia reconhecida mundialmente.</h4>
-                <ul>
-                  {protocol.evidence.map((item) => (
-                    <li key={item}>{item}</li>
-                  ))}
-                </ul>
-                <p>{protocol.source}</p>
-              </aside>
-            )}
+                    <div className="chapter-content">
+                      {/* Repete o título dentro do painel: na lombada ele está
+                          na vertical e serve de índice, aqui é o cabeçalho de
+                          leitura. aria-hidden porque o <h3> da lombada já
+                          nomeia o capítulo para leitores de tela. */}
+                      <div className="chapter-headline" aria-hidden="true">
+                        <p className="chapter-headline-eyebrow">{item.eyebrow}</p>
+                        <p className="chapter-headline-name">{item.name}</p>
+                      </div>
 
-            {protocol.followUp && (
-              <aside className="protocol-follow-up">
-                <Image
-                  src={`${publicBasePath}${protocol.followUp.beforeImage}`}
-                  alt="Registro inicial do protocolo Body Secrets"
-                  width={378}
-                  height={340}
-                  unoptimized
-                />
-                <div>
-                  <span>ANTES E DEPOIS</span>
-                  <h4>{protocol.followUp.title}</h4>
-                  <p>{protocol.followUp.copy}</p>
-                  <div className="follow-up-status">
-                    <span>APÓS 30 DIAS</span>
-                    <strong>Imagem em atualização</strong>
+                      <p className="chapter-copy">{item.copy}</p>
+
+                      <p className="chapter-focus">
+                        <span>Foco clínico</span>
+                        {item.focus}
+                      </p>
+
+                      <div className="chapter-composition">
+                        <p className="chapter-label">Composição</p>
+                        <ul className="chapter-components">
+                          {item.components.map((component) => (
+                            <li key={component.name}>
+                              <h4>{component.name}</h4>
+                              <p className="component-meta">
+                                <strong>{component.amount}</strong>
+                                <span>{component.presentation}</span>
+                              </p>
+                              <p className="component-benefits">
+                                {component.benefits.join(" · ")}
+                              </p>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+
+                      {item.evidence && (
+                        <div className="chapter-evidence">
+                          <p className="chapter-label">
+                            Reconhecida mundialmente
+                          </p>
+                          <ul>
+                            {item.evidence.map((evidenceItem) => (
+                              <li key={evidenceItem}>{evidenceItem}</li>
+                            ))}
+                          </ul>
+                          <p className="chapter-source">{item.source}</p>
+                        </div>
+                      )}
+
+                      <button className="text-link" onClick={scrollToForm}>
+                        Quero conhecer esse protocolo!{" "}
+                        <span aria-hidden="true">→</span>
+                      </button>
+                    </div>
                   </div>
                 </div>
-              </aside>
-            )}
-
-            {protocol.note && (
-              <p className="protocol-note">
-                <span>TRANSPARÊNCIA</span>
-                {protocol.note}
-              </p>
-            )}
-          </div>
-          </article>
+              </article>
+            );
+          })}
         </div>
       </section>
 
       <section
-        className="products-section products-accordion-section"
+        className="products-section products-grid-section"
         id="tecnologias"
         aria-labelledby="products-title"
       >
         <div className="products-intro">
           <p className="section-index">TECNOLOGIAS</p>
           <h2 id="products-title">
-            A combinação certa faz
+            A combinação certa
             <br />
-            <span>toda a diferença.</span>
+            <span>faz toda a diferença.</span>
           </h2>
           <p>
             Cada protocolo reúne tecnologias específicas, criando abordagens
@@ -485,43 +505,29 @@ export default function Home() {
             Quero adquirir os produtos <span aria-hidden="true">↘</span>
           </button>
         </div>
-        <div
-          className="technology-accordion"
-          aria-label="Tecnologias da campanha"
-        >
-          {products.map((item, index) => (
-            <button
-              className={
-                activeProduct === index
-                  ? "technology-panel is-active"
-                  : "technology-panel"
-              }
-              key={item.name}
-              type="button"
-              aria-expanded={activeProduct === index}
-              onMouseEnter={() => setActiveProduct(index)}
-              onFocus={() => setActiveProduct(index)}
-              onClick={() => setActiveProduct(index)}
-            >
-              <Image
-                className="technology-panel-image"
-                src={`${publicBasePath}${item.image}`}
-                alt=""
-                fill
-                sizes="(max-width: 700px) 100vw, 55vw"
-                unoptimized
-              />
-              <span className="technology-panel-number">0{index + 1}</span>
-              <span className="technology-panel-name">{item.name}</span>
-              <div className="technology-panel-detail">
-                <span>{item.category}</span>
-                <strong>{item.name}</strong>
-                <p>{item.tagline}</p>
+        <ul className="technology-grid">
+          {products.map((item) => (
+            <li className="technology-card" key={item.name}>
+              <div className="technology-card-media">
+                <Image
+                  src={`${publicBasePath}${item.image}`}
+                  alt=""
+                  width={item.width}
+                  height={item.height}
+                  sizes="(max-width: 620px) 80vw, (max-width: 1040px) 32vw, 20vw"
+                  unoptimized
+                />
               </div>
-            </button>
+              <div className="technology-card-caption">
+                <p className="technology-card-category">{item.category}</p>
+                <div className="technology-card-reveal">
+                  <h3 className="technology-card-name">{item.name}</h3>
+                  <p className="technology-card-tagline">{item.tagline}</p>
+                </div>
+              </div>
+            </li>
           ))}
-        </div>
-        <p className="touch-hint">Toque em uma tecnologia para expandir.</p>
+        </ul>
       </section>
 
       <section
