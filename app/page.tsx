@@ -81,7 +81,7 @@ const products = [
     category: "SKINCARE TECNOLÓGICO",
     name: "Hydrafacial",
     tagline: "Renovação, hidratação e infusão de ativos",
-    image: "/assets/produto-hydrafacial.jpg",
+    image: "/assets/products/hydrafacial-technology.png",
   },
 ];
 
@@ -338,9 +338,6 @@ export default function Home() {
                 <span>{item.category}</span>
                 <strong>{item.name}</strong>
                 <p>{item.tagline}</p>
-                <span className="technology-panel-link">
-                  Tecnologia em destaque
-                </span>
               </div>
             </button>
           ))}
