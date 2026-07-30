@@ -516,7 +516,15 @@ export default function Home() {
                 <input name="consentimento" type="checkbox" required />
                 <span>
                   Autorizo o contato da ILIKIA&amp;Co e o tratamento dos meus
-                  dados conforme a Política de Privacidade.
+                  dados conforme a{" "}
+                  <a
+                    href="https://ilikia.com/politica-de-privacidade/"
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    Política de Privacidade
+                  </a>
+                  .
                 </span>
               </label>
               <button className="button button-green" type="submit">
@@ -527,9 +535,53 @@ export default function Home() {
         </div>
       </section>
 
-      <footer>
-        <p>Protocolos de Verão 2026</p>
-        <a href="#hero-title">Voltar ao início ↑</a>
+      <footer className="site-footer">
+        <div className="footer-sun" aria-hidden="true" />
+        <div className="footer-shell">
+          <div className="footer-main">
+            <div className="footer-brand-copy">
+              <p className="footer-kicker">ILIKIA&amp;Co · Verão 2026</p>
+              <h2>
+                Corpo &amp; Alma
+                <span>Brasileira.</span>
+              </h2>
+              <p className="footer-description">
+                Ciência, tecnologia e experiência clínica reunidas em
+                protocolos que valorizam a beleza brasileira.
+              </p>
+            </div>
+
+            <nav className="footer-navigation" aria-label="Navegação do rodapé">
+              <p>Explore</p>
+              <a href="#mudanca">Contexto</a>
+              <a href="#protocolos">Protocolos</a>
+              <a href="#tecnologias">Tecnologias</a>
+              <a href="#estrategia">Para a clínica</a>
+            </nav>
+
+            <div className="footer-contact">
+              <p className="footer-contact-label">Para sua clínica</p>
+              <h3>Conheça a estratégia completa para o verão.</h3>
+              <button type="button" onClick={scrollToForm}>
+                Falar com a equipe <span aria-hidden="true">↘</span>
+              </button>
+            </div>
+          </div>
+
+          <div className="footer-bottom">
+            <span>© 2026 ILIKIA&amp;Co. Todos os direitos reservados.</span>
+            <div>
+              <a
+                href="https://ilikia.com/politica-de-privacidade/"
+                target="_blank"
+                rel="noreferrer"
+              >
+                Privacidade
+              </a>
+              <a href="#hero-title">Voltar ao início ↑</a>
+            </div>
+          </div>
+        </div>
       </footer>
     </main>
   );
