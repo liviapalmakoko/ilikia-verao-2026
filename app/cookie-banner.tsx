@@ -8,6 +8,10 @@ import { useCallback, useEffect, useRef, useState } from "react";
 const CONSENT_KEY = "ilikia_cookie_consent";
 const TRACKING_SRC = "https://track-ilikia.koko.ag/t.js";
 
+function isLocalPreview() {
+  return ["localhost", "127.0.0.1", "::1"].includes(window.location.hostname);
+}
+
 function readConsent() {
   try {
     return localStorage.getItem(CONSENT_KEY);
@@ -29,7 +33,9 @@ export default function CookieBanner() {
   const loaded = useRef(false);
 
   const loadTracking = useCallback(() => {
-    if (loaded.current) return;
+    // O gateway aceita apenas os domínios publicados. Não carregamos o script
+    // na prévia local para evitar CORS e dados de teste na conta da campanha.
+    if (loaded.current || isLocalPreview()) return;
     loaded.current = true;
     const script = document.createElement("script");
     script.async = true;
@@ -40,7 +46,10 @@ export default function CookieBanner() {
   useEffect(() => {
     const consent = readConsent();
     if (consent !== "denied") loadTracking();
-    if (!consent) setVisible(true);
+    if (!consent) {
+      const timer = window.setTimeout(() => setVisible(true), 0);
+      return () => window.clearTimeout(timer);
+    }
   }, [loadTracking]);
 
   if (!visible) return null;

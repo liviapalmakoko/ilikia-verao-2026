@@ -1367,6 +1367,89 @@ input::placeholder {
   }
 }
 
+/* Sistema tipográfico consolidado.
+   Evita que revisões locais deixem seções visualmente maiores ou menores. */
+:root {
+  --type-section: clamp(2.85rem, 3.55vw, 3.7rem);
+  --type-section-mobile: clamp(2.1rem, 9vw, 2.75rem);
+  --type-lead: clamp(1rem, 1.15vw, 1.15rem);
+  --type-body: clamp(0.98rem, 1.05vw, 1.08rem);
+  --type-small: 0.78rem;
+}
+
+.patient-content h2,
+.protocols-heading h2,
+.products-grid-section .products-intro h2,
+.strategy-content h2,
+.soul-copy h2,
+.form-campaign-copy h2 {
+  font-size: var(--type-section);
+  line-height: 0.96;
+}
+
+.hero-copy,
+.patient-content p:not(.section-index),
+.protocols-lead,
+.products-grid-section .products-intro > p:not(.section-index),
+.soul-copy > p,
+.form-campaign-copy > p:last-child {
+  font-size: var(--type-body);
+  line-height: 1.55;
+}
+
+.hero-subtitle {
+  font-size: var(--type-lead);
+  line-height: 1.45;
+}
+
+.section-index,
+.patient-kicker,
+.technology-card-category,
+.chapter-eyebrow,
+.chapter-label {
+  font-size: var(--type-small);
+}
+
+/* O título final recupera a hierarquia das demais seções, mas ocupa uma faixa
+   própria acima da modelo e não invade o rosto. */
+.form-campaign-copy h2 {
+  width: min(100%, 17ch);
+  max-width: 17ch;
+}
+
+@media (max-width: 980px) {
+  .patient-content h2,
+  .protocols-heading h2,
+  .products-grid-section .products-intro h2,
+  .strategy-content h2,
+  .soul-copy h2,
+  .form-campaign-copy h2 {
+    font-size: var(--type-section-mobile);
+    line-height: 0.94;
+  }
+
+  .hero-copy,
+  .patient-content p:not(.section-index),
+  .protocols-lead,
+  .products-grid-section .products-intro > p:not(.section-index),
+  .soul-copy > p,
+  .form-campaign-copy > p:last-child {
+    font-size: 0.98rem;
+    line-height: 1.55;
+  }
+
+  .form-campaign-copy {
+    /* Reduz a modelo e a ancora abaixo da faixa reservada ao título. */
+    background-size: auto 78%;
+    background-position: left bottom;
+  }
+
+  .form-campaign-copy h2 {
+    width: min(100%, 14ch);
+    max-width: 14ch;
+  }
+}
+
 @media (max-width: 700px) {
   .hero {
     min-height: 88svh;
@@ -1805,7 +1888,7 @@ input::placeholder {
   overflow: hidden;
   background:
     linear-gradient(90deg, rgba(20, 20, 14, 0.28) 0%, rgba(20, 20, 14, 0.14) 44%, rgba(20, 20, 14, 0.01) 72%),
-    url("/assets/paciente-verao-cliente.webp") center 50% / cover no-repeat;
+    url("/assets/paciente-verao-wide.webp") center 50% / cover no-repeat;
 }
 
 .patient-content {
@@ -1846,7 +1929,7 @@ input::placeholder {
     align-items: flex-end;
     background:
       linear-gradient(180deg, rgba(12, 17, 13, 0.02) 12%, rgba(12, 17, 13, 0.24) 42%, rgba(12, 17, 13, 0.88) 76%),
-      url("/assets/paciente-verao-cliente.webp") 68% center / cover no-repeat;
+      url("/assets/paciente-verao-wide.webp") 68% center / cover no-repeat;
   }
 
   .patient-content {
@@ -2568,6 +2651,178 @@ input::placeholder {
   }
 }
 
+/* ==========================================================================
+   Segunda revisão — transições e mobile compacto
+   ========================================================================== */
+
+/* O atraso no React impede a sanfona de reagir a uma passagem acidental do
+   cursor; esta curva longa faz a troca de largura terminar sem "tranco". */
+@media (min-width: 1041px) and (hover: hover) and (pointer: fine) {
+  .protocol-chapter {
+    transition: flex-basis 1500ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .protocol-chapter.is-open .chapter-panel {
+    opacity: 1;
+    animation: chapter-content-fade 900ms 480ms ease both;
+  }
+}
+
+@keyframes chapter-open-soft {
+  from {
+    opacity: 0;
+    transform: translateX(-16px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* Nome de marca é uma unidade tipográfica: nunca deve quebrar. */
+.technology-card-name,
+.technology-card:nth-child(5) .technology-card-name,
+.chapter-name,
+.chapter-components h4 {
+  white-space: nowrap;
+  overflow-wrap: normal;
+  word-break: keep-all;
+  hyphens: none;
+}
+
+/* Ajustes objetivos da rodada: nenhuma troca de conteúdo ou imagem clínica. */
+@media (min-width: 1041px) and (hover: hover) and (pointer: fine) {
+  .chapter-panel {
+    display: none;
+  }
+
+  .protocol-chapter.is-open .chapter-panel {
+    display: block;
+    opacity: 1;
+    animation: none;
+  }
+
+  .protocol-chapter {
+    transition: flex-basis 1450ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  /* Estas duas seções já possuem os arquivos wide oficiais. A proporção da
+     própria arte passa a definir a altura para exibir o quadro completo no
+     desktop, sem substituir arquivo e sem recorte por cover. */
+  .patient-section,
+  .strategy-section {
+    min-height: 0;
+    aspect-ratio: 1672 / 941;
+  }
+
+  .patient-section {
+    background:
+      linear-gradient(90deg, rgba(20, 20, 14, 0.28) 0%, rgba(20, 20, 14, 0.14) 44%, rgba(20, 20, 14, 0.01) 72%),
+      url("/assets/paciente-verao-wide.webp") center / contain no-repeat,
+      #4d3c27;
+  }
+
+  .strategy-section {
+    background:
+      linear-gradient(90deg, rgba(18, 24, 19, 0.42) 0%, rgba(18, 24, 19, 0.17) 56%, rgba(18, 24, 19, 0.03) 100%),
+      url("/assets/estrategia-verao-horizontal-v2.webp") center / contain no-repeat,
+      #493c2b;
+  }
+}
+
+@media (max-width: 700px) {
+  /* As seções deixam de reservar alturas de viewport. Conteúdo e proporção
+     da foto passam a definir a altura, eliminando os grandes vazios. */
+  .hero {
+    min-height: min(46rem, 100svh);
+    padding: 6.5rem 1.1rem 3rem;
+  }
+
+  .hero-content {
+    justify-content: flex-end;
+  }
+
+  .patient-section {
+    min-height: 0;
+    align-items: flex-end;
+    background-position: 66% center;
+  }
+
+  .patient-content {
+    min-height: 0;
+    padding: clamp(15rem, 58vw, 20rem) 1.25rem 2.5rem;
+  }
+
+  .patient-content h2 {
+    margin-bottom: 1.15rem;
+  }
+
+  .protocols-section {
+    padding-top: 3.25rem;
+  }
+
+  .protocols-heading {
+    margin-bottom: 1.35rem;
+  }
+
+  .chapter-inner {
+    row-gap: 1rem;
+    padding-bottom: 1.75rem;
+  }
+
+  .strategy-content {
+    padding-block: 3.75rem;
+  }
+
+  .benefits-grid-refined article {
+    min-height: 0;
+    padding-block: 1rem;
+  }
+
+  .soul-section,
+  .form-section {
+    min-height: 0;
+  }
+
+  .soul-copy,
+  .form-wrap {
+    padding-block: 3.5rem;
+  }
+
+  .soul-photo,
+  .form-image {
+    min-height: 0;
+    aspect-ratio: 4 / 5;
+  }
+
+  .form-image > div {
+    padding-bottom: 1.5rem;
+  }
+
+  .form-image p {
+    margin-bottom: 0.65rem;
+  }
+}
+
+@media (max-width: 420px) {
+  .technology-card {
+    gap: 0.75rem;
+    padding-inline: 1rem;
+  }
+
+  .technology-card-media {
+    flex-basis: 4.75rem;
+  }
+
+  .technology-card-name {
+    font-size: clamp(1.15rem, 6vw, 1.55rem);
+  }
+
+  .technology-card-tagline {
+    font-size: 0.69rem;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .protocol-accordion,
   .protocol-chapter {
@@ -2753,10 +3008,10 @@ input::placeholder {
   transition: transform 620ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-/* O APTOS é o único deitado: pela altura sozinho ele lia como o menor da
-   fileira. Aqui vale igualar a massa visual, não a altura. */
+/* O novo packshot do APTOS também está em pé e com perspectiva 3D. Ele só
+   precisa de um pequeno ajuste de escala para manter a massa visual da fileira. */
 .technology-card:nth-child(4) .technology-card-media img {
-  max-height: calc(var(--shelf) * 0.74);
+  max-height: calc(var(--shelf) * 1.08);
 }
 
 /* O equipamento é maior por natureza e fica mais alto na prateleira, como
@@ -3038,9 +3293,954 @@ input::placeholder {
   .cookie-banner {
     flex-direction: column;
     align-items: stretch;
+    gap: 0.8rem;
+    padding: 0.9rem 1rem;
+  }
+
+  .cookie-banner p {
+    flex: 0 1 auto;
+    font-size: 0.74rem;
+    line-height: 1.45;
   }
 
   .cookie-actions button {
     flex: 1;
+    min-height: 44px;
+  }
+}
+
+/* ==========================================================================
+   Refinamento de agosto — navegação, leveza visual e responsividade
+   ========================================================================== */
+:root {
+  --radius-small: 0.75rem;
+  --radius-medium: 1.25rem;
+  --radius-large: clamp(1.5rem, 3vw, 2.5rem);
+  /* Mediana amostrada no céu azul da referência enviada em 12/08/2026. */
+  --campaign-blue: #a3bbc4;
+  --campaign-blue-deep: #2f7088;
+}
+
+/* Todos os CTAs passam a compartilhar a mesma linguagem de cantos. */
+.button,
+.nav-contact,
+.mobile-nav a:last-child,
+.footer-cta button,
+.cookie-actions button {
+  border-radius: var(--radius-small);
+}
+
+.floating-nav {
+  min-height: 72px;
+  display: grid;
+  grid-template-columns: minmax(150px, 0.72fr) auto minmax(150px, 0.72fr);
+  gap: clamp(1.5rem, 3.5vw, 4.5rem);
+  padding-inline: clamp(1.25rem, 4vw, 4.5rem);
+}
+
+.nav-brand {
+  width: clamp(150px, 12vw, 205px);
+  display: block;
+  justify-self: start;
+  line-height: 0;
+}
+
+.nav-brand img {
+  width: 100%;
+  height: auto;
+  display: block;
+  filter: brightness(0) invert(1) drop-shadow(0 3px 12px rgba(3, 24, 30, 0.22));
+}
+
+.desktop-nav {
+  margin: 0;
+  justify-self: center;
+  gap: clamp(1.3rem, 2.4vw, 2.5rem);
+}
+
+.desktop-nav a {
+  font-size: 0.78rem;
+  letter-spacing: 0.065em;
+}
+
+.nav-contact {
+  justify-self: end;
+  padding: 0.76rem 1.05rem;
+  font-size: 0.72rem;
+}
+
+.patient-content {
+  width: min(1180px, 70vw);
+  padding-left: clamp(2rem, 10vw, 12rem);
+}
+
+.patient-kicker {
+  margin: 0 0 clamp(1rem, 2vw, 1.5rem) !important;
+  color: var(--sun) !important;
+  font-size: clamp(0.68rem, 0.9vw, 0.82rem) !important;
+  font-weight: 800;
+  letter-spacing: 0.2em;
+  line-height: 1.35 !important;
+  text-transform: uppercase;
+}
+
+/* Abertura deliberadamente mais calma no hover e na troca entre capítulos. */
+@media (min-width: 1041px) {
+  .protocol-chapter {
+    transition-duration: 940ms;
+  }
+
+  .protocol-chapter.is-open .chapter-panel {
+    animation-duration: 760ms;
+  }
+}
+
+.chapter-heading button {
+  transition-duration: 420ms;
+}
+
+.chapter-image-backdrop {
+  width: 100%;
+  min-width: 0;
+  display: grid;
+  place-items: center;
+  padding: clamp(0.85rem, 1.8vw, 1.5rem);
+  overflow: hidden;
+  border-radius: var(--radius-large);
+  background: rgba(255, 253, 245, 0.52);
+  box-shadow: inset 0 0 0 1px var(--f-rule);
+}
+
+.protocol-chapter:nth-child(2) .chapter-image-backdrop {
+  background: rgba(255, 253, 245, 0.08);
+}
+
+.chapter-image-backdrop img,
+.chapter-step-media,
+.chapter-step-caption {
+  border-radius: var(--radius-medium);
+}
+
+.chapter-step-media {
+  overflow: visible;
+}
+
+.chapter-steps img {
+  border-radius: var(--radius-medium) var(--radius-medium) 0 0;
+}
+
+.chapter-step-caption {
+  border-radius: 0 0 var(--radius-medium) var(--radius-medium);
+}
+
+@media (min-width: 1041px) {
+  .chapter-image-backdrop {
+    height: 100%;
+  }
+
+  .chapter-image-backdrop > img {
+    width: 100%;
+    height: 100%;
+    max-height: none;
+    object-fit: contain;
+  }
+}
+
+/* Azul claro da campanha e blocos mais suaves, sem apagar os packshots. */
+.products-grid-section {
+  background:
+    radial-gradient(120% 80% at 50% 118%, rgba(255, 255, 255, 0.66), transparent 62%),
+    linear-gradient(180deg, #c9d9df 0%, var(--campaign-blue) 100%);
+}
+
+.technology-card-media,
+.success-message,
+.cookie-banner {
+  border-radius: var(--radius-medium);
+}
+
+.technology-card-media {
+  border-bottom: 0;
+  background: rgba(255, 255, 255, 0.13);
+}
+
+/* Evita a coluna mínima de 290px que quebrava o cabeçalho no mobile. */
+@media (max-width: 760px) {
+  .products-grid-section .products-intro {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas:
+      "index"
+      "title"
+      "copy"
+      "action";
+    gap: 0;
+    padding: 4rem 1.25rem 2.5rem;
+  }
+
+  .products-grid-section .products-intro h2 {
+    max-width: 100%;
+    font-size: clamp(2.25rem, 10vw, 3.4rem);
+    overflow-wrap: normal;
+  }
+
+  .products-grid-section .products-intro > p:not(.section-index) {
+    margin: 1.25rem 0 1.5rem;
+  }
+
+  .products-grid-section .products-intro .button {
+    width: 100%;
+  }
+
+  .technology-card-name {
+    hyphens: none;
+    word-break: normal;
+    overflow-wrap: normal;
+  }
+}
+
+@media (max-width: 850px) {
+  .floating-nav {
+    min-height: 64px;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 1rem;
+    padding-inline: 1rem;
+  }
+
+  .nav-brand {
+    width: clamp(145px, 43vw, 190px);
+  }
+
+  .nav-toggle {
+    justify-self: end;
+  }
+
+  .mobile-nav {
+    border-radius: 0 0 var(--radius-medium) var(--radius-medium);
+  }
+
+  .patient-content {
+    width: 100%;
+    padding-right: 1.25rem;
+    padding-left: 1.25rem;
+  }
+}
+
+@media (max-width: 620px) {
+  .chapter-image-backdrop {
+    padding: 0.75rem;
+  }
+
+  .chapter-media .chapter-image-backdrop img {
+    width: 100%;
+    height: auto;
+    max-height: 18rem;
+    object-fit: contain;
+  }
+
+  .chapter-media-technology .chapter-image-backdrop img {
+    max-height: 22rem;
+  }
+
+  .chapter-name {
+    overflow-wrap: normal;
+    word-break: normal;
+  }
+}
+
+/* Overrides finais da segunda revisão. */
+@media (min-width: 1041px) and (hover: hover) and (pointer: fine) {
+  .protocol-chapter {
+    transition: flex-basis 1500ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .protocol-chapter.is-open .chapter-panel {
+    opacity: 1;
+    animation: none;
+  }
+}
+
+.technology-card-name,
+.technology-card:nth-child(5) .technology-card-name,
+.chapter-name {
+  white-space: nowrap;
+  overflow-wrap: normal;
+  word-break: keep-all;
+  hyphens: none;
+}
+
+/* Terceira revisão: transição mais serena e formulário como a nova seção
+   wide. O título permanece HTML — copiável, responsivo e acessível — e é
+   distribuído ao redor da silhueta no desktop, como na referência. */
+@media (min-width: 1041px) and (hover: hover) and (pointer: fine) {
+  .protocol-chapter {
+    transition: flex-basis 1900ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .chapter-heading button,
+  .chapter-toggle::before,
+  .chapter-toggle::after {
+    transition-duration: 620ms;
+  }
+}
+
+.form-section {
+  min-height: max(52rem, 100svh);
+  position: relative;
+  isolation: isolate;
+  display: grid;
+  grid-template-columns: minmax(0, 1.05fr) minmax(34rem, 0.95fr);
+  gap: clamp(2rem, 4vw, 5rem);
+  align-items: center;
+  padding: clamp(5.5rem, 7vw, 8rem) clamp(1.5rem, 5vw, 6rem);
+  overflow: hidden;
+  background:
+    linear-gradient(90deg, rgba(6, 38, 54, 0.3) 0%, rgba(6, 38, 54, 0.04) 58%, rgba(6, 38, 54, 0.17) 100%),
+    url("/assets/formulario-mulher-sentada-wide.webp") center / cover no-repeat;
+}
+
+.form-section::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  background: linear-gradient(0deg, rgba(4, 33, 47, 0.48), transparent 45%);
+  pointer-events: none;
+}
+
+.form-campaign-copy {
+  min-width: 0;
+  align-self: stretch;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  color: var(--white);
+}
+
+.form-campaign-copy .section-index {
+  color: var(--sun);
+}
+
+.form-campaign-copy h2 {
+  align-self: start;
+  display: grid;
+  grid-template-columns: minmax(0, 0.72fr) minmax(0, 1fr);
+  margin: clamp(0.25rem, 0.8vw, 0.8rem) 0 0;
+  color: var(--white);
+  font-family: "Sketchetik", Impact, sans-serif;
+  font-size: clamp(2.55rem, 3.65vw, 4.7rem);
+  font-weight: 900;
+  letter-spacing: -0.035em;
+  line-height: 0.88;
+  text-transform: uppercase;
+  text-shadow: 0 3px 22px rgba(2, 24, 34, 0.32);
+}
+
+.form-campaign-copy h2 span:first-child {
+  grid-column: 1 / -1;
+  max-width: 15ch;
+}
+
+.form-campaign-copy h2 span:nth-child(2) {
+  grid-column: 1;
+}
+
+.form-campaign-copy h2 span:nth-child(3),
+.form-campaign-copy h2 span:nth-child(4) {
+  grid-column: 2;
+  width: max-content;
+  max-width: 100%;
+  justify-self: end;
+}
+
+.form-campaign-copy h2 span:nth-child(3) {
+  margin-top: clamp(-0.15rem, -0.4vw, -0.45rem);
+}
+
+.form-campaign-copy > p:last-child {
+  max-width: 31ch;
+  margin: 0;
+  color: var(--white);
+  font-size: clamp(1rem, 1.3vw, 1.25rem);
+  line-height: 1.5;
+  text-shadow: 0 2px 18px rgba(2, 24, 34, 0.62);
+}
+
+.form-wrap {
+  width: min(100%, 49rem);
+  max-height: calc(100svh - clamp(3rem, 6vw, 6rem));
+  justify-self: end;
+  overflow-y: auto;
+  padding: clamp(2rem, 3.5vw, 3.75rem);
+  border-radius: var(--radius-large);
+  background: rgba(255, 253, 245, 0.97);
+  box-shadow: 0 1.5rem 4rem rgba(2, 24, 34, 0.2);
+}
+
+.form-wrap > .section-index,
+.form-wrap > h2,
+.form-wrap > .form-lead {
+  display: none;
+}
+
+@media (max-width: 980px) {
+  .form-section {
+    min-height: 0;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 1.5rem;
+    padding: 4.75rem 1.25rem 2rem;
+    background-position: 29% center;
+  }
+
+  .form-campaign-copy {
+    min-height: clamp(25rem, 82vw, 37rem);
+  }
+
+  .form-campaign-copy h2 {
+    max-width: 100%;
+    display: block;
+    font-size: clamp(2.35rem, 10.2vw, 4rem);
+  }
+
+  .form-campaign-copy h2 span {
+    display: block;
+    width: auto;
+    max-width: 100%;
+    margin: 0;
+  }
+
+  .form-campaign-copy > p:last-child {
+    max-width: 26ch;
+  }
+
+  .form-wrap {
+    max-height: none;
+    justify-self: stretch;
+    overflow: visible;
+    padding: 2rem 1.25rem;
+  }
+}
+
+/* O vazio mostrado no celular vinha da reserva vertical anterior ao conteúdo.
+   A foto continua respirando, mas sem ocupar quase uma tela inteira sozinha. */
+@media (max-width: 700px) {
+  .hero {
+    min-height: min(42rem, 92svh);
+  }
+
+  .patient-content {
+    padding-top: clamp(7.5rem, 32vw, 10rem);
+  }
+
+  .form-campaign-copy {
+    min-height: clamp(23rem, 108vw, 32rem);
+  }
+}
+
+/* Quarta revisão — correções a partir da conferência visual da cliente. */
+@media (min-width: 1041px) {
+  .patient-section {
+    aspect-ratio: auto;
+    min-height: 0;
+    height: clamp(34rem, 68svh, 43rem);
+    background-size: cover;
+    /* Desce o enquadramento: reduz céu sobrando e recupera a parte inferior. */
+    background-position: center 64%;
+  }
+
+  .patient-content {
+    width: min(52rem, 58vw);
+    justify-content: center;
+    padding: 4.5rem 0 3.5rem clamp(2rem, 7vw, 7.5rem);
+  }
+
+  .patient-content h2 {
+    margin-bottom: clamp(1.25rem, 2vw, 2rem);
+  }
+}
+
+.patient-section::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, rgba(8, 29, 26, 0.62) 0%, rgba(8, 29, 26, 0.35) 43%, transparent 72%);
+  pointer-events: none;
+}
+
+.patient-content p:not(.section-index) {
+  color: #fff;
+  font-weight: 500;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.75), 0 1px 2px rgba(0, 0, 0, 0.9);
+}
+
+/* A imagem reconstruída é realmente wide e cobre a seção inteira. O formulário
+   fica sobre a metade direita, como no layout de referência. */
+.form-section {
+  position: relative;
+  isolation: isolate;
+  grid-template-columns: minmax(0, 1fr) minmax(34rem, 1fr);
+  gap: 0;
+  padding: 0;
+  background:
+    linear-gradient(0deg, rgba(4, 33, 47, 0.34), transparent 48%),
+    url("/assets/formulario-mulher-sentada-wide-v4.webp") center / cover no-repeat;
+}
+
+.form-section::before {
+  display: none;
+}
+
+.form-campaign-copy {
+  min-height: max(52rem, 100svh);
+  position: relative;
+  isolation: isolate;
+  padding: clamp(2rem, 4vw, 4.5rem);
+  overflow: hidden;
+  background: none;
+}
+
+.form-campaign-copy h2 {
+  display: grid;
+  grid-template-columns: minmax(0, 0.66fr) minmax(0, 1fr);
+  margin-top: clamp(1.1rem, 2vw, 2rem);
+  font-size: clamp(2.45rem, 3.35vw, 4.25rem);
+}
+
+.form-campaign-copy h2 span {
+  display: block;
+  width: max-content;
+  max-width: 100%;
+}
+
+.form-campaign-copy h2 span:nth-child(1) {
+  grid-column: 1 / -1;
+  max-width: none;
+  white-space: nowrap;
+}
+
+.form-campaign-copy h2 span:nth-child(2) {
+  grid-column: 1;
+  margin-left: 0;
+}
+
+.form-campaign-copy h2 span:nth-child(3),
+.form-campaign-copy h2 span:nth-child(4) {
+  grid-column: 2;
+  margin-left: auto;
+}
+
+.form-campaign-copy h2 span:nth-child(3) {
+  margin-top: clamp(0.4rem, 1vw, 0.9rem);
+}
+
+.form-wrap {
+  position: relative;
+  z-index: 1;
+  width: calc(100% - clamp(2rem, 5vw, 6rem));
+  margin: clamp(2rem, 4vw, 4.5rem) auto;
+}
+
+@media (max-width: 980px) {
+  .form-section {
+    grid-template-columns: minmax(0, 1fr);
+    background: #88a7b1;
+  }
+
+  .form-campaign-copy {
+    min-height: clamp(42rem, 185vw, 47rem);
+    padding: 4.75rem 1.25rem 2rem;
+    background-size: auto 100%;
+    background-position: 18% center;
+    background-repeat: no-repeat;
+    background-image:
+      linear-gradient(0deg, rgba(4, 33, 47, 0.5), transparent 48%),
+      url("/assets/formulario-mulher-sentada-wide-v4.webp");
+  }
+
+  .form-campaign-copy h2 {
+    max-width: 9.5ch;
+    font-size: clamp(2rem, 8.7vw, 3.4rem);
+    line-height: 0.9;
+  }
+
+  .form-campaign-copy h2 span {
+    display: inline;
+    white-space: normal;
+  }
+
+  .form-campaign-copy h2 span:not(:last-child)::after {
+    content: " ";
+  }
+
+  .form-campaign-copy h2 span,
+  .form-campaign-copy h2 span:nth-child(3),
+  .form-campaign-copy h2 span:nth-child(4) {
+    display: block;
+    width: auto;
+    margin: 0;
+    justify-self: start;
+  }
+
+  .form-wrap {
+    width: calc(100% - 2rem);
+    margin: 1rem auto 2rem;
+  }
+}
+
+@media (max-width: 620px) {
+  /* No celular o texto não tenta contornar a modelo. Ele permanece HTML,
+     legível e inteiramente dentro da fotografia, sem criar bloco azul extra. */
+  .form-campaign-copy {
+    min-height: clamp(42rem, 178vw, 46rem);
+    padding-top: 4.5rem;
+    background-size: auto 100%;
+    background-position: 18% center;
+  }
+
+  .form-campaign-copy h2 {
+    max-width: 7.8ch;
+    margin-top: 2.6rem;
+    font-size: clamp(1.95rem, 8.25vw, 2.85rem);
+    line-height: 0.92;
+  }
+
+  .form-campaign-copy > p:last-child {
+    max-width: 25ch;
+    font-size: 0.98rem;
+  }
+}
+
+/* Solução estável: título em bloco, sem contornar a modelo. */
+.form-campaign-copy {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-campaign-copy .section-index {
+  position: static;
+  margin: 0 0 0.75rem;
+}
+
+.form-campaign-copy h2 {
+  position: static;
+  display: block;
+  width: min(100%, 19ch);
+  max-width: 19ch;
+  margin: 0;
+  font-size: clamp(2rem, 2.25vw, 2.9rem);
+  line-height: 0.92;
+}
+
+.form-campaign-copy > p:last-child {
+  position: static;
+  margin-top: auto;
+}
+
+@media (min-width: 981px) {
+  .form-section {
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+  }
+
+  .form-campaign-copy {
+    padding: clamp(6.25rem, 7vw, 7.5rem) clamp(2.5rem, 4vw, 4.75rem) clamp(2.5rem, 4vw, 4.75rem);
+  }
+}
+
+@media (max-width: 980px) {
+  .form-campaign-copy {
+    padding: 5.25rem 1.25rem 2rem;
+    background-size: auto 88%;
+    background-position: left bottom;
+  }
+
+  .form-campaign-copy h2 {
+    width: min(100%, 16ch);
+    max-width: 16ch;
+    font-size: clamp(1.45rem, 5.9vw, 1.95rem);
+  }
+}
+
+/* Auditoria tipográfica final — este bloco é autoritativo e fica depois de
+   todas as revisões locais para que a escala seja realmente consistente. */
+.patient-content h2,
+.protocols-heading h2,
+.products-grid-section .products-intro h2,
+.strategy-content h2,
+.soul-copy h2 {
+  font-size: clamp(2.85rem, 3.55vw, 3.7rem);
+  line-height: 0.96;
+}
+
+.form-campaign-copy h2 {
+  width: min(100%, 21ch);
+  max-width: 21ch;
+  font-size: clamp(2.85rem, 3.55vw, 3.7rem);
+  line-height: 0.96;
+}
+
+.form-campaign-copy h2 span {
+  position: static;
+  display: block;
+  width: auto;
+  max-width: 100%;
+  margin: 0;
+  white-space: nowrap;
+}
+
+.hero-copy,
+.patient-content p:not(.section-index),
+.protocols-lead,
+.products-grid-section .products-intro > p:not(.section-index),
+.soul-copy > p,
+.form-campaign-copy > p:last-child {
+  font-size: clamp(1rem, 1.05vw, 1.08rem);
+  line-height: 1.55;
+}
+
+.patient-content p:not(.section-index) {
+  font-size: clamp(1rem, 1.05vw, 1.08rem) !important;
+}
+
+.section-index,
+.patient-kicker,
+.technology-card-category,
+.chapter-eyebrow,
+.chapter-label {
+  font-size: 0.78rem;
+}
+
+@media (max-width: 980px) {
+  .patient-content h2,
+  .protocols-heading h2,
+  .products-grid-section .products-intro h2,
+  .strategy-content h2,
+  .soul-copy h2 {
+    font-size: clamp(2.1rem, 9vw, 2.75rem);
+    line-height: 0.94;
+  }
+
+  .form-campaign-copy {
+    background-size: auto 72%;
+    background-position: left bottom;
+  }
+
+  .form-campaign-copy h2 {
+    width: min(100%, 14ch);
+    max-width: 14ch;
+    font-size: clamp(2.1rem, 9vw, 2.75rem);
+    line-height: 0.96;
+  }
+
+  .form-campaign-copy h2 span {
+    white-space: normal;
+  }
+
+  .hero-copy,
+  .patient-content p:not(.section-index),
+  .protocols-lead,
+  .products-grid-section .products-intro > p:not(.section-index),
+  .soul-copy > p,
+  .form-campaign-copy > p:last-child {
+    font-size: 0.98rem;
+    line-height: 1.55;
+  }
+
+  .patient-content p:not(.section-index) {
+    font-size: 0.98rem !important;
+  }
+}
+
+/* Formulário mobile compacto: escala fixa o suficiente para tablets estreitos,
+   sem faixa de fundo aparente e sem transformar a foto em um pôster vertical. */
+@media (max-width: 980px) {
+  .form-campaign-copy {
+    min-height: clamp(38rem, 118vw, 46rem);
+    padding: 5.25rem 1.25rem 1.75rem;
+    background-color: transparent;
+    background-size: cover;
+    background-position: left center;
+  }
+
+  .form-campaign-copy h2 {
+    width: 100%;
+    max-width: 100%;
+    font-size: clamp(2rem, 5vw, 2.25rem);
+  }
+
+  .form-campaign-copy > p:last-child {
+    max-width: 28ch;
+  }
+}
+
+@media (max-width: 620px) {
+  .form-campaign-copy {
+    min-height: 42rem;
+    padding-top: 4.75rem;
+    background-size: cover;
+    background-position: left center;
+  }
+
+  .form-campaign-copy h2 {
+    width: 100%;
+    max-width: 100%;
+    font-size: clamp(1.75rem, 7.2vw, 2rem);
+  }
+
+  .form-campaign-copy > p:last-child {
+    max-width: 24ch;
+    font-size: 0.94rem;
+  }
+}
+
+/* Quebra editorial só no desktop. No mobile os três trechos voltam a formar
+   uma frase contínua e quebram conforme a largura disponível. */
+@media (max-width: 980px) {
+  .form-campaign-copy h2 span {
+    display: inline;
+    width: auto;
+    max-width: none;
+    white-space: normal;
+  }
+
+  .form-campaign-copy h2 span:not(:last-child)::after {
+    content: " ";
+  }
+}
+
+@media (min-width: 981px) {
+  .form-campaign-copy h2 span,
+  .form-campaign-copy h2 span:nth-child(1),
+  .form-campaign-copy h2 span:nth-child(2),
+  .form-campaign-copy h2 span:nth-child(3) {
+    position: static;
+    display: block;
+    width: max-content;
+    max-width: 100%;
+    margin: 0;
+    justify-self: start;
+    white-space: nowrap;
+  }
+}
+
+/* A chamada comercial inferior não é legenda: ganha escala e contraste para
+   permanecer legível sobre o mar em todas as larguras. */
+.form-campaign-copy > p:last-child {
+  width: min(100%, 39ch);
+  max-width: 39ch;
+  margin: auto 0 clamp(1.5rem, 3vw, 3rem);
+  padding: 0;
+  color: #fff;
+  background: transparent;
+  font-size: clamp(1.25rem, 1.55vw, 1.55rem);
+  font-weight: 500;
+  line-height: 1.42;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.88), 0 1px 2px rgba(0, 0, 0, 0.9);
+  backdrop-filter: none;
+}
+
+@media (max-width: 980px) {
+  .form-campaign-copy > p:last-child {
+    width: min(100%, 34ch);
+    max-width: 34ch;
+    margin: auto 0 1.5rem;
+    padding: 0;
+    font-size: clamp(1.12rem, 3.2vw, 1.3rem);
+    line-height: 1.45;
+  }
+}
+
+@media (max-width: 620px) {
+  .form-campaign-copy > p:last-child {
+    width: min(100%, 30ch);
+    max-width: 30ch;
+    margin-bottom: 1.25rem;
+    font-size: 1.08rem;
+  }
+}
+
+@media (max-width: 980px) {
+  .form-campaign-copy h2 span,
+  .form-campaign-copy h2 span:nth-child(1),
+  .form-campaign-copy h2 span:nth-child(2),
+  .form-campaign-copy h2 span:nth-child(3) {
+    position: static;
+    display: inline;
+    width: auto;
+    max-width: none;
+    margin: 0;
+    justify-self: auto;
+    white-space: normal;
+  }
+}
+
+/* Texto comercial integrado novamente à fotografia, sem sombra ou caixa. */
+.form-campaign-copy > p.form-photo-lead {
+  display: block;
+  width: min(100%, 34ch);
+  max-width: 34ch;
+  margin: auto 0 0;
+  padding: 0;
+  color: var(--white);
+  background: transparent;
+  font-size: clamp(1.08rem, 1.25vw, 1.25rem);
+  font-weight: 500;
+  line-height: 1.48;
+  text-shadow: none;
+  -webkit-text-stroke: 0 transparent;
+  paint-order: normal;
+  box-shadow: none;
+  filter: none;
+  opacity: 1;
+}
+
+@media (max-width: 980px) {
+  .form-campaign-copy > p.form-photo-lead {
+    width: min(100%, 30ch);
+    max-width: 30ch;
+    margin-top: auto;
+    font-size: 1.05rem;
+    line-height: 1.5;
+  }
+}
+
+/* Hero em video. As camadas de imagem continuam no DOM como alternativa
+   reversivel e como fallback para preferencia de movimento reduzido. */
+.hero-video {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  pointer-events: none;
+}
+
+.hero-background-video .hero-ocean {
+  display: none;
+}
+
+.hero-background-video::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background: linear-gradient(
+    180deg,
+    rgba(6, 35, 42, 0.08) 0%,
+    rgba(7, 39, 46, 0.22) 54%,
+    rgba(4, 28, 35, 0.54) 100%
+  );
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-background-video .hero-video {
+    display: none;
+  }
+
+  .hero-background-video .hero-ocean {
+    display: block;
+    animation: none;
   }
 }

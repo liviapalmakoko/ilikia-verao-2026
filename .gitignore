@@ -40,9 +40,21 @@ next-env.d.ts
 /.wrangler/
 /outputs/
 /work/
+*.tsbuildinfo
 
 # arquivos-fonte pesados da campanha
 *.psd
+/IMAGENS-CLIENTE/
+
+# fontes e estudos locais preservados fora do deploy
+/aparelho-fundo-vertical.png
+/public/assets/magnific_use-the-provided-image-as_s77nNnJl8e.mp4
+/public/assets/formulario-mulher-sentada-original.webp
+/public/assets/formulario-mulher-sentada-wide-v3.webp
+/public/assets/formulario-verao-wide-v2.webp
+/public/assets/products/aptos-nano-3d.png
+/public/assets/products/aptos-nano-packshot-v2.webp
+/public/assets/products/aptos-nano-vertical.webp
 
 # deploy VPS
 /out/

@@ -1,6 +1,6 @@
 "use client";
 
-import { FormEvent, useEffect, useState } from "react";
+import { FormEvent, useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import {
   captureTracking,
@@ -21,6 +21,10 @@ import {
 } from "lucide-react";
 
 const publicBasePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
+
+// Mantemos as duas direcoes do hero no mesmo componente para que a versao
+// anterior possa ser restaurada sem reconstruir layout ou animacoes.
+const heroBackgroundMode: "video" | "image" = "video";
 
 const protocols = [
   {
@@ -147,9 +151,9 @@ const protocols = [
     eyebrow: "SKINCARE TECNOLÓGICO",
     name: "Summer Skin",
     visualType: "technology",
-    image: "/assets/protocols/clinical/hydrafacial-machine.webp",
-    imageWidth: 489,
-    imageHeight: 972,
+    image: "/assets/products/hydrafacial-technology-hq.webp",
+    imageWidth: 1000,
+    imageHeight: 1562,
     visualAlt: "Equipamento Hydrafacial utilizado no protocolo Summer Skin",
     copy:
       "Para pacientes que não querem abrir mão da rotina de verão para cuidar da pele, o Summer Skin utiliza a tecnologia patenteada Vortex-Fusion® da Hydrafacial. O protocolo promove renovação, hidratação e infusão de ativos em um único procedimento, sem downtime, para uma pele saudável, luminosa e pronta para acompanhar o ritmo da estação.",
@@ -204,19 +208,19 @@ const products = [
   },
   {
     category: "FIOS ABSORVÍVEIS DE ÁCIDO POLILÁTICO + POLIPROLACTONA",
-    name: "APTOS",
+    name: "APTOS Nano",
     tagline: "Sustentação mecânica dos tecidos",
-    image: "/assets/products/aptos-packshot.webp",
-    width: 1045,
-    height: 691,
+    image: "/assets/products/aptos-nano-3d.webp",
+    width: 793,
+    height: 1400,
   },
   {
     category: "SKINCARE TECNOLÓGICO",
     name: "Hydrafacial",
     tagline: "Renovação, hidratação e infusão de ativos",
-    image: "/assets/products/hydrafacial-technology.webp",
-    width: 585,
-    height: 1194,
+    image: "/assets/products/hydrafacial-technology-hq.webp",
+    width: 1000,
+    height: 1562,
   },
 ];
 
@@ -254,6 +258,26 @@ export default function Home() {
   const [sending, setSending] = useState(false);
   const [submitError, setSubmitError] = useState("");
   const [menuOpen, setMenuOpen] = useState(false);
+  const protocolHoverTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  function clearProtocolHoverTimer() {
+    if (protocolHoverTimer.current) {
+      clearTimeout(protocolHoverTimer.current);
+      protocolHoverTimer.current = null;
+    }
+  }
+
+  function gentlyOpenProtocol(index: number) {
+    if (!pointerHasHover()) return;
+    clearProtocolHoverTimer();
+    protocolHoverTimer.current = setTimeout(() => setOpenProtocol(index), 460);
+  }
+
+  function gentlyCloseProtocols() {
+    if (!pointerHasHover()) return;
+    clearProtocolHoverTimer();
+    protocolHoverTimer.current = setTimeout(() => setOpenProtocol(-1), 320);
+  }
 
   // Guarda a origem da visita (utm/gclid/fbclid) pro lead chegar no RD
   // com a campanha certa mesmo quando a conversao acontece dias depois.
@@ -312,6 +336,15 @@ export default function Home() {
   return (
     <main>
       <header className={menuOpen ? "floating-nav is-open" : "floating-nav"}>
+        <a className="nav-brand" href="#hero-title" aria-label="Corpo e Alma Brasileira — início">
+          <Image
+            src={`${publicBasePath}/assets/corpo-alma-lettering.webp`}
+            alt="Corpo e Alma Brasileira"
+            width={1800}
+            height={446}
+            unoptimized
+          />
+        </a>
         <nav className="desktop-nav" aria-label="Menu principal">
           <a href="#mudanca">Contexto</a>
           <a href="#protocolos">Protocolos</a>
@@ -349,7 +382,32 @@ export default function Home() {
         </nav>
       </header>
 
-      <section className="hero" aria-labelledby="hero-title">
+      <section
+        className={`hero hero-background-${heroBackgroundMode}`}
+        aria-labelledby="hero-title"
+      >
+        {heroBackgroundMode === "video" && (
+          <video
+            className="hero-video"
+            autoPlay
+            muted
+            loop
+            playsInline
+            preload="metadata"
+            poster={`${publicBasePath}/assets/hero-oficial.webp`}
+            aria-hidden="true"
+          >
+            <source
+              src={`${publicBasePath}/assets/hero-mar-video-mobile.mp4`}
+              type="video/mp4"
+              media="(max-width: 700px)"
+            />
+            <source
+              src={`${publicBasePath}/assets/hero-mar-video.mp4`}
+              type="video/mp4"
+            />
+          </video>
+        )}
         <div className="hero-ocean hero-ocean-back" aria-hidden="true" />
         <div className="hero-ocean hero-ocean-front" aria-hidden="true" />
         <div className="hero-shimmer" aria-hidden="true" />
@@ -389,6 +447,7 @@ export default function Home() {
 
       <section className="patient-section" id="mudanca" aria-labelledby="patient-title">
         <div className="patient-content">
+          <p className="patient-kicker">PROTOCOLO · TECNOLOGIA · CLÍNICA</p>
           <h2 id="patient-title">
             O paciente muda
             <br />
@@ -426,9 +485,7 @@ export default function Home() {
         <div
           className="protocol-accordion"
           data-open={openProtocol}
-          onMouseLeave={() => {
-            if (pointerHasHover()) setOpenProtocol(-1);
-          }}
+          onMouseLeave={gentlyCloseProtocols}
         >
           {protocols.map((item, index) => {
             const open = openProtocol === index;
@@ -448,9 +505,7 @@ export default function Home() {
                     onClick={() =>
                       setOpenProtocol(open && !pointerHasHover() ? -1 : index)
                     }
-                    onMouseEnter={() => {
-                      if (pointerHasHover()) setOpenProtocol(index);
-                    }}
+                    onMouseEnter={() => gentlyOpenProtocol(index)}
                     onFocus={() => setOpenProtocol(index)}
                   >
                     <span className="chapter-titles">
@@ -506,15 +561,17 @@ export default function Home() {
                           ))}
                         </ol>
                       ) : (
-                        <Image
-                          src={`${publicBasePath}${item.image}`}
-                          alt={item.visualAlt}
-                          width={item.imageWidth}
-                          height={item.imageHeight}
-                          loading="eager"
-                                  fetchPriority="low"
-                          unoptimized
-                        />
+                        <div className="chapter-image-backdrop">
+                          <Image
+                            src={`${publicBasePath}${item.image}`}
+                            alt={item.visualAlt}
+                            width={item.imageWidth}
+                            height={item.imageHeight}
+                            loading="eager"
+                            fetchPriority="low"
+                            unoptimized
+                          />
+                        </div>
                       )}
                     </div>
 
@@ -606,7 +663,7 @@ export default function Home() {
               <div className="technology-card-media">
                 <Image
                   src={`${publicBasePath}${item.image}`}
-                  alt=""
+                  alt={item.name}
                   width={item.width}
                   height={item.height}
                   sizes="(max-width: 620px) 80vw, (max-width: 1040px) 32vw, 20vw"
@@ -683,24 +740,20 @@ export default function Home() {
       </section>
 
       <section className="form-section" id="contato" aria-labelledby="form-title">
-        <div className="form-image">
-          <div>
-            <p>CIÊNCIA, TECNOLOGIA E EXPERIÊNCIA CLÍNICA</p>
-            <span>VERÃO 2026</span>
-          </div>
-        </div>
-        <div className="form-wrap">
+        <div className="form-campaign-copy">
           <p className="section-index">FALE COM A NOSSA EQUIPE</p>
-          <h2 id="form-title">
-            Leve os protocolos de verão
-            <br />
-            <span>para sua clínica.</span>
+          <h2 id="form-title" aria-label="Leve os protocolos de verão para sua clínica.">
+            <span>Leve os protocolos</span>
+            <span>de verão para</span>
+            <span>sua clínica.</span>
           </h2>
-          <p className="form-lead">
+          <p className="form-photo-lead">
             Nossa equipe comercial está pronta para apresentar os produtos que
             compõem cada protocolo e indicar a melhor estratégia para sua
             clínica.
           </p>
+        </div>
+        <div className="form-wrap" aria-label="Formulário de contato">
           {submitted ? (
             <div className="success-message" role="status">
               <span aria-hidden="true">✓</span>
