@@ -4244,3 +4244,305 @@ input::placeholder {
     animation: none;
   }
 }
+
+/* ==========================================================================
+   Rodada de ajustes de 13/08/2026
+   ========================================================================== */
+:root {
+  /* Tom amostrado da referência cromática aprovada nesta rodada. */
+  --campaign-blue: #b8cdd4;
+}
+
+/* CTAs sem ícone, com o rótulo realmente centralizado em desktop e mobile. */
+.hero .button,
+.products-grid-section .products-intro .button,
+.soul-copy .button,
+.form-wrap .button-green {
+  justify-content: center;
+  text-align: center;
+}
+
+.hero .button {
+  margin-inline: auto;
+}
+
+.hero-copy {
+  max-width: 48rem;
+  text-wrap: balance;
+}
+
+.keep-together {
+  white-space: nowrap;
+}
+
+/* Cabeçalho de protocolos em duas linhas; apoio em uma linha no desktop. */
+.protocols-heading {
+  max-width: min(86rem, 100%);
+}
+
+.protocols-heading h2 .protocol-title-line,
+.protocols-heading h2 > span:last-child {
+  display: block;
+}
+
+@media (min-width: 981px) {
+  .protocols-heading h2 .protocol-title-line,
+  .protocols-heading h2 > span:last-child,
+  .protocols-lead {
+    white-space: nowrap;
+  }
+
+  .protocols-lead {
+    max-width: none;
+  }
+}
+
+/* Vitrine: mesma sombra e legenda menor/centralizada em todos os produtos. */
+.technology-card,
+.technology-card:nth-child(4) {
+  --spot: rgba(8, 48, 63, 0.12);
+}
+
+.technology-card-media img,
+.technology-card:nth-child(4) .technology-card-media img,
+.technology-card:nth-child(5) .technology-card-media img {
+  filter: drop-shadow(0 8px 10px rgba(8, 48, 63, 0.22));
+}
+
+.technology-card-category {
+  font-size: 0.5rem;
+  text-align: center;
+}
+
+/* Alinhamento vertical de ícones/textos. */
+.strategy-section {
+  background:
+    linear-gradient(90deg, rgba(18, 24, 19, 0.5) 0%, rgba(18, 24, 19, 0.2) 56%, rgba(18, 24, 19, 0.03) 100%),
+    url("/assets/estrategia-verao-horizontal-v2.webp") center / cover no-repeat,
+    #493c2b;
+}
+
+.strategy-ocean-window {
+  display: none;
+}
+
+.benefits-grid-refined article {
+  align-items: center;
+}
+
+.benefits-grid-refined article p {
+  display: flex;
+  align-items: center;
+  min-height: 2.7rem;
+}
+
+/* Nossa Essência passa a usar a fotografia na seção inteira. */
+.soul-section {
+  min-height: clamp(40rem, 64vw, 56rem);
+  position: relative;
+  isolation: isolate;
+  display: block;
+  overflow: hidden;
+  background: var(--green);
+}
+
+.soul-section::before,
+.soul-section::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.soul-section::before {
+  z-index: -2;
+  background: url("/assets/nossa-essencia-d02efc55.webp") center / cover no-repeat;
+  transform: scaleX(-1);
+}
+
+.soul-section::after {
+  z-index: -1;
+  background: linear-gradient(
+    90deg,
+    rgba(28, 50, 23, 0.68) 0%,
+    rgba(28, 50, 23, 0.48) 30%,
+    rgba(28, 50, 23, 0.14) 52%,
+    transparent 70%
+  );
+}
+
+.soul-copy {
+  width: min(50rem, 56%);
+  min-height: inherit;
+  position: relative;
+  z-index: 1;
+  padding: clamp(4.5rem, 7vw, 7rem) clamp(1.5rem, 7vw, 7rem);
+  background: transparent;
+  color: var(--white);
+}
+
+.soul-copy h2 {
+  width: min(100%, 32rem);
+  margin: 0 0 clamp(2rem, 3vw, 3rem);
+  line-height: 0;
+}
+
+.soul-lettering {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.soul-copy > p:not(.section-index) {
+  color: var(--white);
+}
+
+.soul-photo {
+  display: none;
+}
+
+/* O título ocupa a área livre à esquerda e termina antes do rosto da modelo. */
+@media (min-width: 981px) {
+  .form-campaign-copy h2 {
+    width: 100%;
+    max-width: 100%;
+    font-size: clamp(2.25rem, 2.75vw, 2.8rem);
+    line-height: 0.9;
+  }
+
+  .form-campaign-copy h2 span,
+  .form-campaign-copy h2 span:nth-child(1),
+  .form-campaign-copy h2 span:nth-child(2),
+  .form-campaign-copy h2 span:nth-child(3) {
+    display: block;
+    width: max-content;
+    max-width: 100%;
+    white-space: nowrap;
+  }
+
+  .form-campaign-copy h2 span:not(:last-child)::after {
+    content: none;
+  }
+}
+
+/* Rodapé no azul claro indicado como referência oficial da campanha. */
+.site-footer {
+  background: var(--campaign-blue);
+  color: var(--ocean);
+}
+
+.footer-title,
+.footer-kicker,
+.footer-column-title,
+.footer-navigation > p,
+.footer-cta button {
+  color: var(--ocean);
+}
+
+.footer-description,
+.footer-navigation a,
+.footer-cta > p,
+.footer-bottom {
+  color: rgba(8, 47, 69, 0.72);
+}
+
+.footer-actions,
+.footer-bottom {
+  border-color: rgba(8, 47, 69, 0.2);
+}
+
+.footer-cta button {
+  border-color: rgba(8, 47, 69, 0.45);
+}
+
+.footer-navigation a:hover,
+.footer-bottom a:hover,
+.footer-cta button:hover {
+  color: var(--green-dark);
+  border-color: var(--green-dark);
+}
+
+@media (max-width: 980px) {
+  .soul-section {
+    min-height: 0;
+  }
+
+  .soul-section::before {
+    background-position: 68% bottom;
+  }
+
+  .soul-section::after {
+    background: linear-gradient(
+      180deg,
+      rgba(28, 50, 23, 0.72) 0%,
+      rgba(28, 50, 23, 0.5) 48%,
+      rgba(28, 50, 23, 0.12) 76%,
+      transparent 100%
+    );
+  }
+
+  .soul-copy {
+    width: 100%;
+    min-height: 48rem;
+    padding: 4.75rem 1.25rem 14rem;
+  }
+
+  .soul-copy h2 {
+    width: min(100%, 24rem);
+  }
+
+  .benefits-grid-refined article {
+    grid-template-columns: 3rem minmax(0, 1fr);
+    text-align: center;
+  }
+
+  .benefits-grid-refined article p {
+    justify-content: center;
+    text-align: center;
+  }
+
+  .form-campaign-copy {
+    background-position: left bottom;
+  }
+
+  .form-campaign-copy h2 {
+    max-width: 10ch;
+    text-wrap: balance;
+  }
+}
+
+@media (max-width: 620px) {
+  .hero-copy {
+    max-width: 25rem;
+  }
+
+  .technology-card-category {
+    text-align: left;
+  }
+}
+
+/* No bloco fotográfico do formulário, o título termina acima da cabeça da
+   modelo em telas estreitas. As três linhas seguem a divisão editorial do
+   conteúdo e evitam que o texto avance sobre o rosto. */
+@media (max-width: 980px) {
+  .form-campaign-copy h2 {
+    width: 100% !important;
+    max-width: 100% !important;
+    font-size: clamp(1.5rem, 4.1vw, 1.8rem) !important;
+    line-height: 0.9 !important;
+  }
+
+  .form-campaign-copy h2 span,
+  .form-campaign-copy h2 span:nth-child(1),
+  .form-campaign-copy h2 span:nth-child(2),
+  .form-campaign-copy h2 span:nth-child(3) {
+    display: block !important;
+    width: max-content !important;
+    max-width: 100% !important;
+    white-space: nowrap !important;
+  }
+
+  .form-campaign-copy h2 span:not(:last-child)::after {
+    content: none !important;
+  }
+}

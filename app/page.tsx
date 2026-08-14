@@ -151,9 +151,9 @@ const protocols = [
     eyebrow: "SKINCARE TECNOLÓGICO",
     name: "Summer Skin",
     visualType: "technology",
-    image: "/assets/products/hydrafacial-technology-hq.webp",
-    imageWidth: 1000,
-    imageHeight: 1562,
+    image: "/assets/protocols/clinical/hydrafacial-machine.webp",
+    imageWidth: 489,
+    imageHeight: 972,
     visualAlt: "Equipamento Hydrafacial utilizado no protocolo Summer Skin",
     copy:
       "Para pacientes que não querem abrir mão da rotina de verão para cuidar da pele, o Summer Skin utiliza a tecnologia patenteada Vortex-Fusion® da Hydrafacial. O protocolo promove renovação, hidratação e infusão de ativos em um único procedimento, sem downtime, para uma pele saudável, luminosa e pronta para acompanhar o ritmo da estação.",
@@ -218,9 +218,9 @@ const products = [
     category: "SKINCARE TECNOLÓGICO",
     name: "Hydrafacial",
     tagline: "Renovação, hidratação e infusão de ativos",
-    image: "/assets/products/hydrafacial-technology-hq.webp",
-    width: 1000,
-    height: 1562,
+    image: "/assets/protocols/clinical/hydrafacial-machine.webp",
+    width: 489,
+    height: 972,
   },
 ];
 
@@ -432,17 +432,12 @@ export default function Home() {
           <p className="hero-copy">
             Tratamentos que respeitam a individualidade do paciente, valorizam
             resultados naturais e acompanham as principais tendências da
-            medicina estética mundial.
+            <span className="keep-together"> medicina estética mundial.</span>
           </p>
           <button className="button button-sun" onClick={scrollToForm}>
             Quero conhecer os protocolos!
-            <span aria-hidden="true">↘</span>
           </button>
         </div>
-        <a className="scroll-cue" href="#mudanca" aria-label="Ir para a próxima seção">
-          <span>DESCUBRA</span>
-          <span aria-hidden="true">↓</span>
-        </a>
       </section>
 
       <section className="patient-section" id="mudanca" aria-labelledby="patient-title">
@@ -472,8 +467,7 @@ export default function Home() {
         <div className="protocols-heading">
           <p className="section-index">ABORDAGENS INTEGRADAS</p>
           <h2 id="protocols-title">
-            Protocolos desenvolvidos
-            <br />
+            <span className="protocol-title-line">Protocolos desenvolvidos</span>
             <span>para o verão brasileiro.</span>
           </h2>
           <p className="protocols-lead">
@@ -539,18 +533,11 @@ export default function Home() {
                                   alt={`Etapa ${stepIndex + 1} do protocolo FrameLift`}
                                   width={step.width}
                                   height={step.height}
-                                  /* eager: em repouso todos os painéis estão
-                                     fechados, e imagem lazy dentro de painel
-                                     fechado só carrega no primeiro hover — a
-                                     abertura piscaria sem a imagem. */
                                   loading="eager"
                                   fetchPriority="low"
                                   unoptimized
                                 />
-                                <span
-                                  className="chapter-step-number"
-                                  aria-hidden="true"
-                                >
+                                <span className="chapter-step-number" aria-hidden="true">
                                   {stepIndex + 1}
                                 </span>
                               </div>
@@ -654,7 +641,7 @@ export default function Home() {
             completas para diferentes necessidades clínicas.
           </p>
           <button className="button button-sun" onClick={scrollToForm}>
-            Quero adquirir os produtos <span aria-hidden="true">↘</span>
+            Quero adquirir os produtos
           </button>
         </div>
         <ul className="technology-grid">
@@ -718,9 +705,16 @@ export default function Home() {
         <div className="soul-copy">
           <p className="section-index">NOSSA ESSÊNCIA</p>
           <h2 id="soul-title">
-            Corpo &amp; Alma
-            <br />
-            <span>Brasileira</span>
+            <span className="visually-hidden">Corpo &amp; Alma Brasileira</span>
+            <Image
+              className="soul-lettering"
+              src={`${publicBasePath}/assets/corpo-alma-lettering.webp`}
+              alt=""
+              width={1800}
+              height={446}
+              unoptimized
+              aria-hidden="true"
+            />
           </h2>
           <p>
             O Brasil fez do corpo uma assinatura cultural. Fez da emoção uma
@@ -733,7 +727,7 @@ export default function Home() {
             da estação.
           </p>
           <button className="button button-light" onClick={scrollToForm}>
-            Quero adquirir os protocolos <span aria-hidden="true">↘</span>
+            Quero adquirir os protocolos
           </button>
         </div>
         <div className="soul-photo" aria-hidden="true" />
@@ -905,8 +899,7 @@ export default function Home() {
                 disabled={sending}
                 aria-busy={sending}
               >
-                {sending ? "Enviando…" : "Quero receber uma apresentação"}{" "}
-                <span aria-hidden="true">→</span>
+                {sending ? "Enviando…" : "Quero receber uma apresentação"}
               </button>
             </form>
           )}
