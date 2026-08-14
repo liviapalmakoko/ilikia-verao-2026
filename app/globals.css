@@ -2201,38 +2201,33 @@ input::placeholder {
   max-height: clamp(15rem, 32vw, 25rem);
 }
 
-/* As três etapas são uma sequência: <ol> numerado, com o selo e a legenda
-   em HTML. Antes vinham gravados no PNG, o que impedia corrigir o texto e
-   deixava a legenda ilegível no celular. */
-.chapter-steps {
+/* O FrameLift mostra uma etapa por vez. As três imagens continuam no DOM
+   da experiência através da paginação, mas nunca aparecem amontoadas. */
+.chapter-step-carousel {
+  width: min(100%, 24rem);
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: clamp(0.35rem, 0.8vw, 0.65rem);
-  align-items: start;
-  width: 100%;
-  margin: 0;
-  padding: 0;
-  list-style: none;
-  counter-reset: etapa;
+  justify-items: center;
+  gap: clamp(0.9rem, 1.5vw, 1.2rem);
 }
 
-.chapter-steps > li {
-  display: flex;
-  flex-direction: column;
-  min-width: 0;
+.chapter-step-card {
+  width: 100%;
 }
 
 .chapter-step-media {
   position: relative;
+  aspect-ratio: 4 / 5;
+  overflow: hidden;
+  background: #c5a78f;
   line-height: 0;
 }
 
-.chapter-steps img {
+.chapter-step-media img {
   width: 100%;
-  height: auto;
+  height: 100%;
   max-height: none;
   border-radius: 2px 2px 0 0;
-  object-fit: cover;
+  object-fit: contain;
 }
 
 /* Selo na emenda entre a foto e a legenda, como no arquivo original. */
@@ -2271,6 +2266,37 @@ input::placeholder {
 .chapter-step-caption strong {
   display: block;
   color: #2f2118;
+}
+
+.chapter-step-pagination {
+  display: flex;
+  justify-content: center;
+  gap: 0.65rem;
+}
+
+.chapter-step-pagination button {
+  display: grid;
+  place-items: center;
+  width: 2.55rem;
+  height: 2.55rem;
+  padding: 0;
+  border: 1px solid rgba(255, 253, 245, 0.9);
+  border-radius: 50%;
+  background: transparent;
+  color: #fffdf5;
+  font: inherit;
+  font-size: 0.8rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background-color 180ms ease, border-color 180ms ease, color 180ms ease;
+}
+
+.chapter-step-pagination button:hover,
+.chapter-step-pagination button:focus-visible,
+.chapter-step-pagination button.is-active {
+  border-color: var(--yellow);
+  background: var(--yellow);
+  color: var(--green);
 }
 
 /* ---- Conteúdo ---- */
@@ -2619,11 +2645,7 @@ input::placeholder {
     max-height: 15rem;
   }
 
-  /* Três etapas lado a lado em 390px davam ~115px por quadro e a legenda
-     ficava ilegível. Empilhadas, cada etapa ocupa a largura da coluna. */
-  .chapter-steps {
-    grid-template-columns: minmax(0, 1fr);
-    gap: clamp(1.4rem, 5vw, 1.9rem);
+  .chapter-step-carousel {
     max-width: 22rem;
     margin-inline: auto;
   }
@@ -4356,7 +4378,7 @@ input::placeholder {
 
 .soul-section::before {
   z-index: -2;
-  background: url("/assets/nossa-essencia-d02efc55.webp") center / cover no-repeat;
+  background: url("/assets/nossa-essencia-summer-skin.jpeg") center / cover no-repeat;
   transform: scaleX(-1);
 }
 

@@ -31,9 +31,9 @@ const protocols = [
     eyebrow: "CONTORNO CORPORAL",
     name: "Beauty Code",
     visualType: "clinical-map",
-    image: "/assets/protocols/clinical/beauty-code-map.webp",
-    imageWidth: 910,
-    imageHeight: 492,
+    image: "/assets/protocols/clinical/beauty-code.png",
+    imageWidth: 1600,
+    imageHeight: 2000,
     visualAlt:
       "Mapa de aplicação do protocolo Beauty Code para projeção, volumização e qualidade tecidual",
     copy:
@@ -60,32 +60,32 @@ const protocols = [
     eyebrow: "REJUVENESCIMENTO FACIAL",
     name: "FrameLift",
     visualType: "framelift-steps",
-    image: "/assets/protocols/clinical/framelift-step-1.webp",
-    imageWidth: 412,
-    imageHeight: 372,
+    image: "/assets/protocols/clinical/framelift-01-stiim.png",
+    imageWidth: 1200,
+    imageHeight: 1500,
     visualAlt: "Etapas de aplicação do protocolo FrameLift",
     /* As legendas vinham gravadas dentro do PNG — e a da etapa 3 trazia o
        nome "Botulift", que o briefing pede para não exibir. Os arquivos foram
        recortados na foto; selo e legenda agora são HTML. */
     stepImages: [
       {
-        src: "/assets/protocols/clinical/framelift-step-1.webp",
-        width: 412,
-        height: 209,
+        src: "/assets/protocols/clinical/framelift-01-stiim.png",
+        width: 1200,
+        height: 1500,
         caption: "Regeneração do colágeno com STIIM",
         detail: "(CaHA)",
       },
       {
-        src: "/assets/protocols/clinical/framelift-step-2.webp",
-        width: 412,
-        height: 211,
+        src: "/assets/protocols/clinical/framelift-02-up-contour.png",
+        width: 1200,
+        height: 1500,
         caption: "Estruturação com UP Contour",
         detail: "(HA)",
       },
       {
-        src: "/assets/protocols/clinical/framelift-step-3.webp",
-        width: 450,
-        height: 233,
+        src: "/assets/protocols/clinical/framelift-03-toxina-botulinica.png",
+        width: 1200,
+        height: 1500,
         caption: "Neuromodulação com neurotransmissor",
         detail: "(Toxina Botulínica)",
       },
@@ -122,9 +122,9 @@ const protocols = [
     eyebrow: "FIRMEZA ABDOMINAL",
     name: "Body Secrets",
     visualType: "clinical-map",
-    image: "/assets/protocols/clinical/body-secrets-map.webp",
-    imageWidth: 654,
-    imageHeight: 464,
+    image: "/assets/protocols/clinical/body-secrets.png",
+    imageWidth: 1600,
+    imageHeight: 2000,
     visualAlt:
       "Mapa de vetores do protocolo Body Secrets para firmeza e sustentação abdominal",
     copy:
@@ -254,6 +254,7 @@ export default function Home() {
   // -1 = todos fechados. É o estado de repouso: com cursor, o capítulo só
   // abre enquanto o mouse está sobre a faixa. No toque, abre no clique.
   const [openProtocol, setOpenProtocol] = useState(-1);
+  const [activeFrameStep, setActiveFrameStep] = useState(0);
   const [submitted, setSubmitted] = useState(false);
   const [sending, setSending] = useState(false);
   const [submitError, setSubmitError] = useState("");
@@ -483,6 +484,7 @@ export default function Home() {
         >
           {protocols.map((item, index) => {
             const open = openProtocol === index;
+            const activeStep = item.stepImages?.[activeFrameStep];
             return (
               <article
                 className={open ? "protocol-chapter is-open" : "protocol-chapter"}
@@ -523,30 +525,47 @@ export default function Home() {
                         borda a borda, então recortar cortaria conteúdo — a
                         integração vem de máscara nas bordas, não de corte. */}
                     <div className={`chapter-media chapter-media-${item.visualType}`}>
-                      {item.stepImages ? (
-                        <ol className="chapter-steps">
-                          {item.stepImages.map((step, stepIndex) => (
-                            <li key={step.src}>
-                              <div className="chapter-step-media">
-                                <Image
-                                  src={`${publicBasePath}${step.src}`}
-                                  alt={`Etapa ${stepIndex + 1} do protocolo FrameLift`}
-                                  width={step.width}
-                                  height={step.height}
-                                  loading="eager"
-                                  fetchPriority="low"
-                                  unoptimized
-                                />
-                                <span className="chapter-step-number" aria-hidden="true">
-                                  {stepIndex + 1}
-                                </span>
-                              </div>
-                              <p className="chapter-step-caption">
-                                {step.caption} <strong>{step.detail}</strong>
-                              </p>
-                            </li>
-                          ))}
-                        </ol>
+                      {item.stepImages && activeStep ? (
+                        <div className="chapter-step-carousel">
+                          <div
+                            className="chapter-step-card"
+                            role="group"
+                            aria-label={`Etapa ${activeFrameStep + 1} de ${item.stepImages.length}`}
+                          >
+                            <div className="chapter-step-media">
+                              <Image
+                                src={`${publicBasePath}${activeStep.src}`}
+                                alt={`Etapa ${activeFrameStep + 1} do protocolo FrameLift`}
+                                width={activeStep.width}
+                                height={activeStep.height}
+                                loading="eager"
+                                fetchPriority="low"
+                                unoptimized
+                              />
+                              <span className="chapter-step-number" aria-hidden="true">
+                                {activeFrameStep + 1}
+                              </span>
+                            </div>
+                            <p className="chapter-step-caption">
+                              {activeStep.caption} <strong>{activeStep.detail}</strong>
+                            </p>
+                          </div>
+
+                          <div className="chapter-step-pagination" aria-label="Etapas do FrameLift">
+                            {item.stepImages.map((step, stepIndex) => (
+                              <button
+                                type="button"
+                                className={stepIndex === activeFrameStep ? "is-active" : ""}
+                                aria-label={`Mostrar etapa ${stepIndex + 1}: ${step.caption}`}
+                                aria-pressed={stepIndex === activeFrameStep}
+                                onClick={() => setActiveFrameStep(stepIndex)}
+                                key={step.src}
+                              >
+                                {stepIndex + 1}
+                              </button>
+                            ))}
+                          </div>
+                        </div>
                       ) : (
                         <div className="chapter-image-backdrop">
                           <Image
